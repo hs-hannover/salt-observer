@@ -1,0 +1,21 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>salt-observer</title>
+
+        {% block pre-style %}{% endblock %}
+        <link rel="stylesheet" href="{% static 'css/main.css' %}">
+        {% block post-style %}{% endblock %}
+
+        {% block pre-script %}{% endblock %}
+        {% block post-script %}{% endblock %}
+    </head>
+    <body>
+        {% block content %}
+
+        {% endblock %}
+    </body>
+</html>

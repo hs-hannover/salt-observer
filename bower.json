@@ -1,0 +1,16 @@
+{
+  "name": "salt-observer",
+  "authors": [
+    "Tim Fechner <tim.fechner@hs-hannover.de>"
+  ],
+  "description": "",
+  "main": "package.json",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "http://www.hs-hannover.de/",
+  "private": true,
+  "devDependencies": {
+    "font-awesome": "fontawesome#^4.5.0",
+    "jquery": "^2.2.1"
+  }
+}

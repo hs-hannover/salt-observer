@@ -1,0 +1,23 @@
+{
+  "name": "salt-observer",
+  "version": "1.0.0",
+  "description": "automatic server documentation via salt",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@lab.it.hs-hannover.de:2222/django/salt-observer.git"
+  },
+  "author": "Tim Fechner <tim.fechner@hs-hannover.de>",
+  "license": "MIT",
+  "devDependencies": {
+    "bower": "^1.7.7",
+    "grunt": "^0.4.5",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-less": "^1.2.0",
+    "grunt-contrib-uglify": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0"
+  }
+}

@@ -15,8 +15,18 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.contrib.auth.decorators import login_required
+
+from .views import Home
+
+
+def auth_url(regex, view, *args, **kwargs):
+    return url(regex, login_required(view), *args, **kwargs)
+
 
 urlpatterns = [
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', admin.site.urls),
+
+    url(r'^$', Home.as_view(), name='home'),
 ]
