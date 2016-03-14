@@ -1,0 +1,8 @@
+# virtualenv stuff
+env/
+
+# python stuff
+*.pyc
+
+# django stuff
+salt_observer/private_settings.py
