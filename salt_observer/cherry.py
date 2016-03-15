@@ -16,3 +16,18 @@ def obtain_auth_token(username, password):
 def request(token, data):
     data.update({'client': 'local'})
     return requests.post(BASE_URL, headers={'Accept': 'application/json', 'X-Auth-Token': token}, data=data)
+
+
+# experimental:
+# ---
+#
+# get output of 'w' command of all 'tgt' minions
+# request('token', {'tgt': '*', 'fun': 'cmd.run', 'arg': 'w'})
+#
+# get all grains of 'tgt' minions
+# request('token', {'tgt': '*', 'fun': 'grains.items'})
+#
+# execute some state and apply custom pillars to it
+# request('token', {'tgt': '*', 'fun': 'state.sls', 'kwarg': {
+#     'mods': 'name_of_state', 'pillar': {'some': 'pillar_data'}
+# }})
