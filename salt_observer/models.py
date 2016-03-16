@@ -1,5 +1,7 @@
 from django.db import models
 
+import json
+
 
 class Network(models.Model):
     ''' Representation of an Network '''
@@ -11,4 +13,12 @@ class Network(models.Model):
 class Minion(models.Model):
     ''' Representation of a Server in Salt '''
 
-    name = models.CharField(max_length=255)
+    fqdn = models.CharField(max_length=255)
+    grains = models.TextField()
+
+    @property
+    def get_grains(self):
+        return json.loads(self.grains)
+
+    def __str__(self):
+        return self.fqdn
