@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 
 from salt_observer.cherry import SaltCherrypyApi
-from salt_observer.models import Minion, Network, NetworkCard
+from salt_observer.models import Minion, Network, NetworkInterface
 
 from getpass import getpass
 import netaddr
@@ -49,6 +49,6 @@ class Command(BaseCommand):
                 else:
                     self.stdout.write(self.style.SUCCESS('Update'))
 
-                NetworkCard(network=network, minion=minion, mac_address=if_data['mac_address']).save()
+                NetworkInterface(network=network, minion=minion, mac_address=if_data['mac_address']).save()
 
         m.logout()

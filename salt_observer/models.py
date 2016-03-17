@@ -3,6 +3,13 @@ from django.db import models
 import json
 
 
+class DatabaseTemplate(models.Model):
+    ''' To enable on-the-fly modification of templates '''
+
+    name = models.CharField(max_length=255)
+    content = models.TextField()
+
+
 class Network(models.Model):
     ''' Representation of an Network '''
 
@@ -17,7 +24,7 @@ class Minion(models.Model):
     ''' Representation of a Server in Salt '''
 
     fqdn = models.CharField(max_length=255)
-    networks = models.ManyToManyField(Network, through='NetworkCard')
+    networks = models.ManyToManyField(Network, through='NetworkInterface')
     grains = models.TextField()
 
     @property
@@ -28,7 +35,7 @@ class Minion(models.Model):
         return self.fqdn
 
 
-class NetworkCard(models.Model):
+class NetworkInterface(models.Model):
     ''' Representing a network card '''
 
     network = models.ForeignKey(Network, on_delete=models.CASCADE)
