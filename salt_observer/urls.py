@@ -21,6 +21,6 @@ urlpatterns = [
     url(r'^minions/$', MinionList.as_view(), name='minion-list'),
     url(r'^minions/(?P<minion_fqdn>[a-zA-Z0-9\.\-]+)/$', MinionDetail.as_view(), name='minion-detail'),
 
-    url(r'^minions/$', NetworkList.as_view(), name='network-list'),
-    url(r'^minions/(?P<minion_fqdn>[a-zA-Z0-9\.\-]+)/$', NetworkDetail.as_view(), name='network-detail'),
+    url(r'^networks/$', NetworkList.as_view(), name='network-list'),
+    url(r'^networks/(?P<network_ipv4>[a-zA-Z0-9\.\-]+)/$', NetworkDetail.as_view(), name='network-detail'),
 ]

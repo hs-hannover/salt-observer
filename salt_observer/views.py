@@ -8,7 +8,7 @@ from django.conf import settings
 
 from markdown import Markdown
 
-from salt_observer.models import Minion
+from salt_observer.models import Minion, Network
 
 
 class Dashboard(TemplateView):
@@ -37,7 +37,18 @@ class MinionDetail(View):
 
 class NetworkList(ListView):
     template_name = 'network/list.html'
+    model = Network
 
 
 class NetworkDetail(View):
-    pass
+
+    def get(self, request, network_ipv4, *args, **kwargs):
+        network = Network.objects.filter(ipv4=network_ipv4).first()
+
+        c = {'network': network}
+
+        plain_text = Template('{% extends "docs/network.md" %}\n\n' + network.md_content).render(Context(c))
+        md = Markdown(extensions=['markdown.extensions.toc', 'markdown.extensions.extra'])
+
+        c.update({'md_html': mark_safe(md.convert(plain_text)), 'toc': mark_safe(md.toc)})
+        return render(request, 'network/detail.html', c)

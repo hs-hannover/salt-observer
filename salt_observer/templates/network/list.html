@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block nav-networks %}class="active"{% endblock %}
+
+{% block post-script %}
+    <script type="text/javascript" src="{% static 'js/tablesorter.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/filtertable.min.js' %}"></script>
+    <script>
+        $(function() {
+            $.tablesorter.themes.bootstrap = {
+                header: 'bootstrap-header',
+                iconSortNone: 'fa fa-sort',
+                iconSortAsc: 'fa fa-sort-asc',
+                iconSortDesc: 'fa fa-sort-desc',
+            };
+            $("#network-table").tablesorter({
+                theme: "bootstrap",
+                headerTemplate: '{content} {icon}',
+                sortList: [[0,0]],
+                widgets: ["uitheme"],
+            });
+            $("#network-table").filterTable({
+                inputSelector: '#network-table-filter',
+            });
+        })
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Networks</h1>
+    </div>
+    <div class="row margin-bottom-wrapper">
+        <div class="col-md-3">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-filter fa-fw"></i></span>
+                <input id="network-table-filter" class="form-control" placeholder="Filter nach ..." type="search">
+            </div>
+        </div>
+    </div>
+
+    <table id="network-table" class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Network</th>
+                <th>Subnet mask</th>
+                <th>Connected Minions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for network in network_list %}
+                <tr>
+                    <td><a href="{% url 'network-detail' network.ipv4 %}">{{ network.ipv4 }}</a></td>
+                    <td>{{ network.mask }}</td>
+                    <td>{{ network.minion_set.all|length }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
