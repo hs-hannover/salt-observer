@@ -3,14 +3,16 @@ from django.db import models
 import json
 
 
-class DatabaseTemplate(models.Model):
+class MarkdownContent(models.Model):
     ''' To enable on-the-fly modification of templates '''
 
-    name = models.CharField(max_length=255)
-    content = models.TextField()
+    md_content = models.TextField()
+
+    class Meta:
+        abstract = True
 
 
-class Network(models.Model):
+class Network(MarkdownContent):
     ''' Representation of an Network '''
 
     ipv4 = models.CharField(max_length=15)
@@ -20,12 +22,13 @@ class Network(models.Model):
         return self.ipv4
 
 
-class Minion(models.Model):
+class Minion(MarkdownContent):
     ''' Representation of a Server in Salt '''
 
     fqdn = models.CharField(max_length=255)
     networks = models.ManyToManyField(Network, through='NetworkInterface')
     grains = models.TextField()
+    timestamp = models.DateTimeField()
 
     @property
     def get_grains(self):
@@ -41,7 +44,8 @@ class NetworkInterface(models.Model):
     network = models.ForeignKey(Network, on_delete=models.CASCADE)
     minion = models.ForeignKey(Minion, on_delete=models.CASCADE)
 
+    name = models.CharField(max_length=255)
     mac_address = models.CharField(max_length=17)
 
     def __str__(self):
-        return self.mac_address
+        return '{} ({})'.format(self.name, self.mac_address)

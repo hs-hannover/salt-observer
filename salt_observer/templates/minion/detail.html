@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block nav-minions %}class="active"{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>{{ minion.fqdn }}</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 md_rendered_doc">
+            {{ md_html }}
+        </div>
+        <div class="col-md-4 toc-wrapper">
+            <h3>Inhalt</h3>
+            {{ toc }}
+        </div>
+    </div>
+
+    <hr/>
+    <p class="footnote text-muted">
+        <i>Grains aktuell vom {{ minion.timestamp|date:"d.m.y - H:i" }} Uhr</i>
+    </p>
+{% endblock %}

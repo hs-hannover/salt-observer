@@ -1,23 +1,12 @@
-"""salt_observer URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/1.9/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.conf.urls import url, include
-    2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
-"""
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 
-from .views import Home
+from .views import (
+    Dashboard,
+    MinionList, MinionDetail,
+    NetworkList, NetworkDetail,
+)
 
 
 def auth_url(regex, view, *args, **kwargs):
@@ -28,5 +17,10 @@ urlpatterns = [
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', admin.site.urls),
 
-    url(r'^$', Home.as_view(), name='home'),
+    url(r'^$', Dashboard.as_view(), name='dashboard'),
+    url(r'^minions/$', MinionList.as_view(), name='minion-list'),
+    url(r'^minions/(?P<minion_fqdn>[a-zA-Z0-9\.\-]+)/$', MinionDetail.as_view(), name='minion-detail'),
+
+    url(r'^minions/$', NetworkList.as_view(), name='network-list'),
+    url(r'^minions/(?P<minion_fqdn>[a-zA-Z0-9\.\-]+)/$', NetworkDetail.as_view(), name='network-detail'),
 ]

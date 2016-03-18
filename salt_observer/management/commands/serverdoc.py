@@ -4,6 +4,7 @@ from salt_observer.cherry import SaltCherrypyApi
 from salt_observer.models import Minion, Network, NetworkInterface
 
 from getpass import getpass
+from datetime import datetime
 import netaddr
 import json
 
@@ -27,7 +28,8 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.WARNING('Create'))
                 minion = Minion(
                     fqdn=minion_fqdn,
-                    grains=json.dumps(minion_grains)
+                    grains=json.dumps(minion_grains),
+                    timestamp=datetime.now()
                 )
             minion.save()
 
@@ -35,7 +37,7 @@ class Command(BaseCommand):
                 continue
 
             for if_name, if_data in minion_grains['so_interfaces'].items():
-                if if_name in ['lo']:
+                if if_name in ['lo', 'lo0']:
                     continue
 
                 ipv4_network = str(netaddr.IPNetwork('{}/{}'.format(if_data['ipv4']['address'], if_data['ipv4']['netmask'])).network)
@@ -45,10 +47,17 @@ class Command(BaseCommand):
                 if not network:
                     self.stdout.write(self.style.WARNING('Create'))
                     network = Network(ipv4=ipv4_network, mask=if_data['ipv4']['netmask'])
-                    network.save()
                 else:
                     self.stdout.write(self.style.SUCCESS('Update'))
+                network.save()
 
-                NetworkInterface(network=network, minion=minion, mac_address=if_data['mac_address']).save()
+                self.stdout.write('{:>50} '.format(if_data['mac_address']), ending='')
+                ni = NetworkInterface.objects.filter(network=network, minion=minion, mac_address=if_data['mac_address']).first()
+                if not ni:
+                    self.stdout.write(self.style.WARNING('Create'))
+                    ni = NetworkInterface(network=network, minion=minion, mac_address=if_data['mac_address'], name=if_name)
+                else:
+                    self.stdout.write(self.style.SUCCESS('Update'))
+                ni.save()
 
         m.logout()

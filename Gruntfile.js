@@ -16,7 +16,7 @@ module.exports = function(grunt) {
             },
         },
 
-        // compile less files into css, minified and not minified
+        // compile less files into css
         less: {
             dev: {
                 options: {
@@ -33,8 +33,19 @@ module.exports = function(grunt) {
         uglify: {
             jquery: {
                 files: {'salt_observer/static/js/jquery.min.js': ['salt_observer/assets/bower/jquery/dist/jquery.js']}
+            },
+            bootstrap: {
+                files: {'salt_observer/static/js/bootstrap.min.js': ['salt_observer/assets/bower/bootstrap/js/*.js']}
+            },
+            tables: {
+                files: {
+                    'salt_observer/static/js/tablesorter.min.js': ['salt_observer/assets/bower/tablesorter/dist/js/jquery.tablesorter.combined.js'],
+                    'salt_observer/static/js/filtertable.min.js': ['salt_observer/assets/bower/filterTable/jquery.filtertable.js']
+                }
             }
         },
+
+        // Watch stuff
         watch: {
             less: {
                 files: ['hshaccounts/assets/**/*.less'],
@@ -50,6 +61,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Register tasks here.
-    grunt.registerTask('default', ['copy', 'less', 'uglify', 'watch']);
+    grunt.registerTask('default', ['copy', 'less', 'uglify']);
 
 };

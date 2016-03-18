@@ -6,7 +6,7 @@ from salt_observer.models import Minion, Network, NetworkInterface
 class NetworkInterfaceInline(admin.TabularInline):
     model = NetworkInterface
     extra = 0
-    readonly_fields = ('network', 'minion', 'mac_address')
+    readonly_fields = ('network', 'minion', 'mac_address', 'name')
 
     def has_add_permission(self, request):
         return False
@@ -17,7 +17,7 @@ class NetworkInterfaceInline(admin.TabularInline):
 
 class MinionAdmin(admin.ModelAdmin):
     inlines = [NetworkInterfaceInline]
-    readonly_fields = ('fqdn', 'grains',)
+    readonly_fields = ('fqdn', 'grains', 'timestamp')
 admin.site.register(Minion, MinionAdmin)
 
 

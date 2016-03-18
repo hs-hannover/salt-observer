@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block nav-minions %}class="active"{% endblock %}
+
+{% block post-script %}
+    <script type="text/javascript" src="{% static 'js/tablesorter.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/filtertable.min.js' %}"></script>
+    <script>
+        $(function() {
+            $.tablesorter.themes.bootstrap = {
+                header: 'bootstrap-header',
+                iconSortNone: 'fa fa-sort',
+                iconSortAsc: 'fa fa-sort-asc',
+                iconSortDesc: 'fa fa-sort-desc',
+            };
+            $("#minion-table").tablesorter({
+                theme: "bootstrap",
+                headerTemplate: '{content} {icon}',
+                sortList: [[0,0]],
+                widgets: ["uitheme"],
+            });
+            $("#minion-table").filterTable({
+                inputSelector: '#minion-table-filter',
+            });
+        })
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Minions</h1>
+    </div>
+    <div class="row margin-bottom-wrapper">
+        <div class="col-md-3">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-filter fa-fw"></i></span>
+                <input id="minion-table-filter" class="form-control" placeholder="Filter nach ..." type="search">
+            </div>
+        </div>
+    </div>
+
+    <table id="minion-table" class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Minion ID</th>
+                <th>OS Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for minion in minion_list %}
+                <tr>
+                    <td><a href="{% url 'minion-detail' minion.fqdn %}">{{ minion }}</a></td>
+                    <td><code>{{ minion.get_grains.os }} {{ minion.get_grains.osrelease }} {{ minion.get_grains.oscodename }}</code></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -11,6 +11,8 @@
   "private": true,
   "devDependencies": {
     "font-awesome": "fontawesome#^4.5.0",
-    "jquery": "^2.2.1"
+    "jquery": "^2.2.1",
+    "filterTable": "jQuery.FilterTable#^1.5.5",
+    "tablesorter": "mottie/tablesorter#^2.25.5"
   }
 }
