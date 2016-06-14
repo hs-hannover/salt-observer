@@ -11,11 +11,16 @@ class SaltCherrypyApi(object):
         self.token = self.obtain_auth_token(username, password)
 
     def obtain_auth_token(self, username, password):
-        return requests.post(self.BASE_URL+'/login', headers={'Accept': 'application/json'}, data={
+        res = requests.post(self.BASE_URL+'/login', headers={'Accept': 'application/json'}, data={
             'username': username,
             'password': password,
             'eauth': 'pam'
-        }).json().get('return')[0].get('token')
+        })
+
+        if res.status_code != 200:
+            raise Exception('{} - {}'.format(res.status_code, res.text))
+
+        return res.json().get('return')[0].get('token')
 
     def request(self, data, api_point=''):
         data.update({'client': 'local'})
