@@ -15,27 +15,14 @@
         <!-- for the available script blocks look at the bottom of <body> -->
     </head>
     <body>
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
-                        <div class="navbar-header">
-                            <a class="navbar-brand" href="/">Salt-Observer</a>
-                            <button type="button" class="navbar-toggle collapsed" data-toggle="offcanvas" data-target="#collapsed-sidebar" data-canvas="body">
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="container-fluid">
             <div class="row">
 
                 <div class="col-sm-3 col-md-2 sidebar">
+                    <div class="title-wrapper">
+                        <span class="title">salt-observer</span>
+                    </div>
+
                     {% block sidebar %}
                         <ul class="nav nav-sidebar">
                             <li {% block nav-dashboard %}{% endblock %}><a href="{% url 'dashboard' %}"><i class="fa fa-fw fa-2x fa-bullhorn"></i> Dashboard</a></li>

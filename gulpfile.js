@@ -21,11 +21,9 @@ gulp.task('default', [
     'build:custom-javascript'
 ]);
 
-// gulp.task('watch', ['default'], function() {
-//     var less_watcher = gulp.watch(src + 'less/**/*.less', ['compileLess']);
-//     var js_watcher = gulp.watch(src + 'js/main.js', ['buildMainJavascript']);
-//     var js_watcher = gulp.watch(['js/**/*.js', '!js/main.js'], {cwd: src}, ['buildCustomJavascript']);
-// });
+gulp.task('watch', ['default'], function() {
+    var less_watcher = gulp.watch(src + 'less/**/*.less', ['compile:less']);
+});
 
 // Actually the tasks
 
