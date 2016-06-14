@@ -9,4 +9,4 @@ salt_observer/private_settings.py
 
 # dev stuff
 node_modules/
-salt_observer/assets/bower/
+db.sqlite3

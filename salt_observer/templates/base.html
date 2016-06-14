@@ -7,10 +7,10 @@
 
         <title>Salt-Observer</title>
 
-        <link rel="icon" href="{% static '' %}">
+        <link rel="icon" href="{% static 'img/favicon-eye.ico' %}">
 
         {% block pre-style %}{% endblock %}
-        <link rel="stylesheet" href="{% static 'css/main.css' %}">
+        <link rel="stylesheet" href="{% static 'css/main.min.css' %}">
         {% block post-style %}{% endblock %}
         <!-- for the available script blocks look at the bottom of <body> -->
     </head>
@@ -57,8 +57,7 @@
         </div>
 
         {% block pre-script %}{% endblock %}
-        <script src="{% static 'js/jquery.min.js' %}"></script>
-        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/contrib/main.min.js' %}"></script>
         {% block post-script %}{% endblock %}
     </body>
 </html>
