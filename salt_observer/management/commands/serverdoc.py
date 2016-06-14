@@ -4,6 +4,7 @@ from django.utils import timezone
 from salt_observer.cherry import SaltCherrypyApi
 from salt_observer.models import Minion, Network, NetworkInterface
 
+import sys
 from getpass import getpass
 import netaddr
 import json
@@ -72,7 +73,14 @@ class Command(BaseCommand):
                 interface.delete()
 
     def handle(self, *args, **options):
-        m = SaltCherrypyApi(input('Username: '), getpass())
+        if len(sys.argv) < 3:
+            username = input('Username: ')
+            password = getpass()
+        else:
+            username = sys.argv[1]
+            password = sys.argv[2]
+
+        m = SaltCherrypyApi(username, password)
         touched_elements = self._update_data(m.get_server_information())
         self._cleanup(touched_elements)
         m.logout()
