@@ -72,8 +72,8 @@ class Command(BaseCommand):
                 interface.delete()
 
     def add_arguments(self, parser):
-        parser.add_argument('username', type=str)
-        parser.add_argument('password', type=str)
+        parser.add_argument('username', nargs='?', type=str)
+        parser.add_argument('password', nargs='?', type=str)
 
     def handle(self, *args, **options):
         if not options.get('username'):
