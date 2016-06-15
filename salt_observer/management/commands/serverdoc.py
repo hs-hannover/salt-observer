@@ -50,8 +50,10 @@ class Command(BaseCommand):
         ''' Update the Network objects '''
         network = Network.objects.filter(ipv4=ipv4).first()
         if not network:
-            network = Network(ipv4=ipv4, mask=mask)
-            network.save()
+            network = Network(ipv4=ipv4, mask=mask, last_updated=timezone.now())
+        else:
+            network.last_updated = timezone.now()
+        network.save()
         return network
 
     def _update_network_interface(self, network, minion, mac_address, if_name):
