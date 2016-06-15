@@ -19,6 +19,6 @@
 
     <hr/>
     <p class="footnote text-muted">
-        <i>Grains aktuell vom {{ minion.timestamp|date:"d.m.y - H:i" }} Uhr</i>
+        <i>Grains aktuell vom {{ minion.last_updated|date:"d.m.y - H:i" }} Uhr</i>
     </p>
 {% endblock %}

@@ -17,11 +17,11 @@ class NetworkInterfaceInline(admin.TabularInline):
 
 class MinionAdmin(admin.ModelAdmin):
     inlines = [NetworkInterfaceInline]
-    readonly_fields = ('fqdn', 'grains', 'timestamp')
+    readonly_fields = ('fqdn', 'grains', 'last_updated')
 admin.site.register(Minion, MinionAdmin)
 
 
 class NetworkAdmin(admin.ModelAdmin):
     inlines = [NetworkInterfaceInline]
-    readonly_fields = ('ipv4', 'mask')
+    readonly_fields = ('ipv4', 'mask', 'last_updated')
 admin.site.register(Network, NetworkAdmin)

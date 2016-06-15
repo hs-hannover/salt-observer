@@ -18,6 +18,8 @@ class Network(MarkdownContent):
     ipv4 = models.CharField(max_length=15)
     mask = models.CharField(max_length=15)
 
+    last_updated = models.DateTimeField()
+
     def __str__(self):
         return self.ipv4
 
@@ -28,7 +30,8 @@ class Minion(MarkdownContent):
     fqdn = models.CharField(max_length=255)
     networks = models.ManyToManyField(Network, through='NetworkInterface')
     grains = models.TextField()
-    timestamp = models.DateTimeField()
+
+    last_updated = models.DateTimeField()
 
     @property
     def get_grains(self):

@@ -28,8 +28,9 @@ class Command(BaseCommand):
         minion = Minion.objects.filter(fqdn=fqdn).first()
         if minion:
             minion.grains = json.dumps(grains)
+            minion.last_updated = timezone.now()
         else:
-            minion = Minion(fqdn=fqdn, grains=json.dumps(grains), timestamp=timezone.now())
+            minion = Minion(fqdn=fqdn, grains=json.dumps(grains), last_updated=timezone.now())
         minion.save()
         return minion
 
