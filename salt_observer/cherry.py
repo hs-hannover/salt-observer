@@ -29,8 +29,11 @@ class SaltCherrypyApi(object):
     def logout(self):
         return requests.post(self.BASE_URL+'/logout', headers={'Accept': 'application/json', 'X-Auth-Token': self.token})
 
-    def get_server_information(self):
+    def get_server_grains(self):
         return self.request({'tgt': '*', 'fun': 'grains.items'}).json().get('return')[0]
+
+    def get_server_module_data(self, module):
+        return self.request({'tgt': '*', 'fun': module}).json().get('return')[0]
 
 
 # experimental:

@@ -29,13 +29,13 @@ class Minion(MarkdownContent):
 
     fqdn = models.CharField(max_length=255)
     networks = models.ManyToManyField(Network, through='NetworkInterface')
-    grains = models.TextField()
+    data = models.TextField(default='{}')
 
     last_updated = models.DateTimeField()
 
     @property
-    def get_grains(self):
-        return json.loads(self.grains)
+    def get_data(self):
+        return json.loads(self.data)
 
     def __str__(self):
         return self.fqdn

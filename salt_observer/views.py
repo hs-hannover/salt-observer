@@ -26,7 +26,7 @@ class MinionDetail(View):
         minion = Minion.objects.filter(fqdn=minion_fqdn).first()
 
         c = {'minion': minion}
-        c['minion'].grains = minion.get_grains
+        c['minion'].data = minion.get_data
 
         plain_text = Template('{% extends "docs/minion.md" %}\n\n' + minion.md_content).render(Context(c))
         md = Markdown(extensions=['markdown.extensions.toc', 'markdown.extensions.extra'])

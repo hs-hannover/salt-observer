@@ -1,15 +1,14 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from django.utils import timezone
 
-from salt_observer.cherry import SaltCherrypyApi
 from salt_observer.models import Minion, Network, NetworkInterface
+from . import ApiCommand
 
-from getpass import getpass
 import netaddr
 import json
 
 
-class Command(BaseCommand):
+class Command(ApiCommand, BaseCommand):
     help = 'Fetch and save new data from all servers'
 
     def _update_data(self, grains):
@@ -27,10 +26,12 @@ class Command(BaseCommand):
         ''' Update minions related to grains we got '''
         minion = Minion.objects.filter(fqdn=fqdn).first()
         if minion:
-            minion.grains = json.dumps(grains)
+            data = json.loads(minion.data)
+            data['grains'] = grains
+            minion.data = json.dumps(data)
             minion.last_updated = timezone.now()
         else:
-            minion = Minion(fqdn=fqdn, grains=json.dumps(grains), last_updated=timezone.now())
+            minion = Minion(fqdn=fqdn, grains=json.dumps({'grains': grains}), last_updated=timezone.now())
         minion.save()
         return minion
 
@@ -74,22 +75,10 @@ class Command(BaseCommand):
             if interface not in touched['interfaces']:
                 interface.delete()
 
-    def add_arguments(self, parser):
-        parser.add_argument('username', nargs='?', type=str)
-        parser.add_argument('password', nargs='?', type=str)
+    def handle(self, *args, **kwargs):
+        api = super().handle(*args, **kwargs)
 
-    def handle(self, *args, **options):
-        if not options.get('username'):
-            username = input('Username: ')
-        else:
-            username = options.get('username')
-
-        if not options.get('password'):
-            password = getpass()
-        else:
-            password = options.get('password')
-
-        m = SaltCherrypyApi(username, password)
-        touched_elements = self._update_data(m.get_server_information())
+        touched_elements = self._update_data(api.get_server_grains())
         self._cleanup(touched_elements)
-        m.logout()
+
+        api.logout()
