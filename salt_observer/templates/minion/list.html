@@ -49,7 +49,7 @@
             {% for minion in minion_list %}
                 <tr>
                     <td><a href="{% url 'minion-detail' minion.fqdn %}">{{ minion }}</a></td>
-                    <td><code>{{ minion.get_grains.os }} {{ minion.get_grains.osrelease }} {{ minion.get_grains.oscodename }}</code></td>
+                    <td><code>{{ minion.get_data.grains.os }} {{ minion.get_data.grains.osrelease }} {{ minion.get_data.grains.oscodename }}</code></td>
                 </tr>
             {% endfor %}
         </tbody>
