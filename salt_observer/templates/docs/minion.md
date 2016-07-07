@@ -25,6 +25,13 @@ hat ein aktuelles Bios vom {{ minion.data.grains.biosreleasedate }}.
 Leider konnten wir keine Informationen über die Netzwerke dieses Minions abgreifen
 {% endif %}
 
+# Existent user accounts
+
+{% block user-description %}{% endblock %}
+
+{% for user in minion.data.users %}- {{ user }}
+{% endfor %}
+
 # Installed Packages
 
 {% block package-description %}{% endblock %}
