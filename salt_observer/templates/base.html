@@ -19,8 +19,8 @@
             <div class="row">
 
                 <div class="col-sm-3 col-md-2 sidebar">
-                    <div class="title-wrapper">
-                        <span class="title">salt-observer</span>
+                    <div class="title-wrapper" data-root="/">
+                        <a href="/" class="title">salt-observer</a>
                     </div>
 
                     {% block sidebar %}
@@ -45,6 +45,7 @@
 
         {% block pre-script %}{% endblock %}
         <script src="{% static 'js/contrib/main.min.js' %}"></script>
+        <script src="{% static 'js/base.min.js' %}"></script>
         {% block post-script %}{% endblock %}
     </body>
 </html>
