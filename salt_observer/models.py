@@ -37,6 +37,18 @@ class Minion(MarkdownContent):
     def get_data(self):
         return json.loads(self.data)
 
+    @property
+    def user_count(self):
+        return len(self.get_data['users'])
+
+    @property
+    def package_count(self):
+        return len(self.get_data['packages'])
+
+    @property
+    def network_count(self):
+        return len(self.networks.all())
+
     def __str__(self):
         return self.fqdn
 
