@@ -94,7 +94,11 @@
                         <div class="col-md-6">
                             {% if minion.outdated_package_count > 0 %}
                                 <p class="next-to-input-text text-warning">
-                                    There are updates for <b>{{ minion.outdated_package_count }}</b> installed packages!
+                                    <i class="fa fa-fw fa-exclamation-triangle"></i> There are updates for <b>{{ minion.outdated_package_count }}</b> installed packages!
+                                </p>
+                            {% else %}
+                                <p class="next-to-input-text text-success">
+                                    <i class="fa fa-fw fa-check"></i> Every installed package is up to date!
                                 </p>
                             {% endif %}
                         </div>
