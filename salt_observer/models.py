@@ -49,6 +49,9 @@ class Minion(MarkdownContent):
     def network_count(self):
         return len(self.networks.all())
 
+    def outdated_package_count(self):
+        return len([p for p, v in self.get_data.get('packages').items() if v['latest_version']])
+
     def __str__(self):
         return self.fqdn
 

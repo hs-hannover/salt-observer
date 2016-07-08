@@ -20,10 +20,17 @@
                 iconSortAsc: 'fa fa-sort-asc',
                 iconSortDesc: 'fa fa-sort-desc',
             };
-            $('#usertable, #packagetable').tablesorter({
+            $('#usertable').tablesorter({
                 theme: 'bootstrap',
                 headerTemplate: '{content} {icon}',
                 sortList: [[0,0]],
+                widgets: ['uitheme'],
+            });
+            $('#packagetable').tablesorter({
+                theme: 'bootstrap',
+                headerTemplate: '{content} {icon}',
+                sortList: [[0,0]],
+                headers: {3:{sorter:false}},
                 widgets: ['uitheme'],
             });
             $('#packagetable').filterTable({
@@ -78,25 +85,46 @@
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="packages">
                     <div class="row margin-bottom-wrapper">
-                        <div class="col-md-5">
+                        <div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-search fa-fw"></i></span>
                                 <input id="packagetable-search" class="form-control" placeholder="Suchen nach ..." type="search">
                             </div>
+                        </div>
+                        <div class="col-md-6">
+                            {% if minion.outdated_package_count > 0 %}
+                                <p class="next-to-input-text text-warning">
+                                    Es gibt Updates für <b>{{ minion.outdated_package_count }}</b> installierte Pakete!
+                                </p>
+                            {% endif %}
                         </div>
                     </div>
                     <table id="packagetable" class="table table-hover">
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Version</th>
+                                <th>Installed version</th>
+                                <th>Available version</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for package, version in minion.get_data.packages.items %}
-                                <tr>
+                            {% for package, versions in minion.get_data.packages.items %}
+                                <tr {% if versions.latest_version != '' %}class="warning"{% endif %}>
                                     <td>{{ package }}</td>
-                                    <td>{{ version }}</td>
+                                    <td>{{ versions.version }}</td>
+                                    <td>
+                                        {% if versions.latest_version != '' %}
+                                            <span class="text-warning">{{ versions.latest_version }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if versions.latest_version == '' %}
+                                            <span class="text-success"><i class="fa fa-fw fa-check"></i></span>
+                                        {% else %}
+                                            <span class="text-warning"><i class="fa fa-fw fa-exclamation-triangle"></i></span>
+                                        {% endif %}
+                                    </td>
                                 </tr>
                             {% endfor %}
                         </tbody>

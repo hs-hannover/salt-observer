@@ -57,7 +57,7 @@
                     <td><code>{{ minion.get_data.grains.os }} {{ minion.get_data.grains.osrelease }} {{ minion.get_data.grains.oscodename }}</code></td>
                     <td>{{ minion.network_count }}</td>
                     <td>{{ minion.user_count }}</td>
-                    <td>{{ minion.package_count }}</td>
+                    <td>{{ minion.package_count }} {% if minion.outdated_package_count %}<small class="text-danger">({{ minion.outdated_package_count }})</small>{% endif %}</td>
                     <td>
                         {% with minion.get_data.grains|get:"vmware-tools-status" as vmwarestatus %}
                             {% if vmwarestatus == 'NOT-INSTALLED' %}
