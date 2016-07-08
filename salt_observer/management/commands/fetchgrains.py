@@ -31,7 +31,7 @@ class Command(ApiCommand, BaseCommand):
             minion.data = json.dumps(data)
             minion.last_updated = timezone.now()
         else:
-            minion = Minion(fqdn=fqdn, grains=json.dumps({'grains': grains}), last_updated=timezone.now())
+            minion = Minion(fqdn=fqdn, data=json.dumps({'grains': grains}), last_updated=timezone.now())
         minion.save()
         return minion
 

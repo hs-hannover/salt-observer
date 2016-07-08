@@ -39,11 +39,11 @@ class Minion(MarkdownContent):
 
     @property
     def user_count(self):
-        return len(self.get_data['users'])
+        return len(self.get_data.get('grains', {}).get('users', []))
 
     @property
     def package_count(self):
-        return len(self.get_data['packages'])
+        return len(self.get_data.get('packages', []))
 
     @property
     def network_count(self):
