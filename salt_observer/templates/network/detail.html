@@ -8,12 +8,51 @@
     </div>
 
     <div class="row">
-        <div class="col-md-8 md_rendered_doc">
-            {{ md_html }}
+        <div class="col-md-8">
+            <h1>Im Netzwerk vorhandene Minions</h1>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Minion Fqdn</th>
+                        <th>Network interfaces</th>
+                        <th>MAC address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for minion in network.minion_set.all %}
+                        <tr>
+                            <td><a href="{% url 'minion-detail' minion.fqdn %}">{{ minion.fqdn }}</a></td>
+                            {% for ni in minion.networkinterface_set.all %}
+                                {% if ni.network.ipv4 == network.ipv4 %}
+                                    <td>{{ ni.name }}</td>
+                                    <td>{{ ni.mac_address }}</td>
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-        <div class="col-md-4 toc-wrapper">
-            <h3>Inhalt</h3>
-            {{ toc }}
+        <div class="col-md-4">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Netzwerk</td>
+                        <td>{{ network.ipv4 }}</td>
+                    </tr>
+                    <tr>
+                        <td>Subnet Mask</td>
+                        <td>{{ network.mask }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
