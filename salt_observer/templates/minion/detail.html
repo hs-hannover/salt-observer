@@ -20,11 +20,14 @@
                 iconSortAsc: 'fa fa-sort-asc',
                 iconSortDesc: 'fa fa-sort-desc',
             };
-            $("#usertable").tablesorter({
-                theme: "bootstrap",
+            $('#usertable, #packagetable').tablesorter({
+                theme: 'bootstrap',
                 headerTemplate: '{content} {icon}',
                 sortList: [[0,0]],
-                widgets: ["uitheme"],
+                widgets: ['uitheme'],
+            });
+            $('#packagetable').filterTable({
+                inputSelector: '#packagetable-search',
             });
         })
     </script>
@@ -74,7 +77,15 @@
                     </table>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="packages">
-                    <table class="table table-hover">
+                    <div class="row margin-bottom-wrapper">
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-search fa-fw"></i></span>
+                                <input id="packagetable-search" class="form-control" placeholder="Suchen nach ..." type="search">
+                            </div>
+                        </div>
+                    </div>
+                    <table id="packagetable" class="table table-hover">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -93,7 +104,7 @@
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="users">
                     <p><a href="#" id="toggleSystemUsers">Toggle system users</a></p>
-                    <table class="table table-hover" id="usertable">
+                    <table id="usertable" class="table table-hover">
                         <thead>
                             <tr>
                                 <th>Id</th>
