@@ -3,6 +3,33 @@
 
 {% block nav-minions %}class="active"{% endblock %}
 
+{% block post-script %}
+    <script>
+        $(function() {
+            function toggleSystemUsers() {
+                $('#usertable tr').each(function(index) {
+                    if ($(this).data('uid') < 1000) { $(this).toggle(); }
+                })
+            }
+            toggleSystemUsers();
+            $('#toggleSystemUsers').click(toggleSystemUsers);
+
+            $.tablesorter.themes.bootstrap = {
+                header: 'bootstrap-header',
+                iconSortNone: 'fa fa-sort',
+                iconSortAsc: 'fa fa-sort-asc',
+                iconSortDesc: 'fa fa-sort-desc',
+            };
+            $("#usertable").tablesorter({
+                theme: "bootstrap",
+                headerTemplate: '{content} {icon}',
+                sortList: [[0,0]],
+                widgets: ["uitheme"],
+            });
+        })
+    </script>
+{% endblock %}
+
 {% block content %}
     <div class="page-header">
         <h1>{{ minion.fqdn }}</h1>
@@ -65,7 +92,8 @@
                     </table>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="users">
-                    <table class="table table-hover">
+                    <p><a href="#" id="toggleSystemUsers">Toggle system users</a></p>
+                    <table class="table table-hover" id="usertable">
                         <thead>
                             <tr>
                                 <th>Id</th>
@@ -76,7 +104,7 @@
                         </thead>
                         <tbody>
                             {% for user in minion.get_data.grains.users %}
-                                <tr>
+                                <tr data-uid="{{ user.id }}">
                                     <td>{{ user.id }}</td>
                                     <td>{{ user.name }}</td>
                                     <td><code>{{ user.home }}</code></td>
