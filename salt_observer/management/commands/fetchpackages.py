@@ -11,14 +11,10 @@ class Command(ApiCommand, BaseCommand):
     help = 'Fetch and save new data from all servers'
 
     def save_packages(self, api):
-        print('Fetching packages ...')
         packages = api.get_server_module_data('pkg.list_pkgs')
-        print('Fetching upgrades ...')
         upgrades = api.get_server_module_data('pkg.list_upgrades')
 
         for minion_fqdn, minion_packages in packages.items():
-
-            print('Handling {}'.format(minion_fqdn))
 
             minion = Minion.objects.filter(fqdn=minion_fqdn).first()
             minion_data = json.loads(minion.data)
