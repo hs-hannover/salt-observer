@@ -1,6 +1,7 @@
 from django.template import Context, Template
 from django.views.generic import View, TemplateView
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from django.utils.safestring import mark_safe
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -20,35 +21,18 @@ class MinionList(ListView):
     model = Minion
 
 
-class MinionDetail(View):
-
-    def get(self, request, minion_fqdn, *args, **kwargs):
-        minion = Minion.objects.filter(fqdn=minion_fqdn).first()
-
-        c = {'minion': minion}
-        c['minion'].data = minion.get_data
-
-        plain_text = Template('{% extends "docs/minion.md" %}\n\n' + minion.md_content).render(Context(c))
-        md = Markdown(extensions=['markdown.extensions.toc', 'markdown.extensions.extra'])
-
-        c.update({'md_html': mark_safe(md.convert(plain_text)), 'toc': mark_safe(md.toc)})
-        return render(request, 'minion/detail.html', c)
-
-
 class NetworkList(ListView):
     template_name = 'network/list.html'
     model = Network
 
 
-class NetworkDetail(View):
+class MinionDetail(DetailView):
+    template_name = 'minion/detail.html'
+    model = Minion
+    slug_field = 'fqdn'
 
-    def get(self, request, network_ipv4, *args, **kwargs):
-        network = Network.objects.filter(ipv4=network_ipv4).first()
 
-        c = {'network': network}
-
-        plain_text = Template('{% extends "docs/network.md" %}\n\n' + network.md_content).render(Context(c))
-        md = Markdown(extensions=['markdown.extensions.toc', 'markdown.extensions.extra'])
-
-        c.update({'md_html': mark_safe(md.convert(plain_text)), 'toc': mark_safe(md.toc)})
-        return render(request, 'network/detail.html', c)
+class NetworkDetail(DetailView):
+    template_name = 'network/detail.html'
+    model = Network
+    slug_field = 'ipv4'

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load so_extras %}
 
 {% block nav-minions %}class="active"{% endblock %}
 
@@ -8,17 +9,140 @@
     </div>
 
     <div class="row">
-        <div class="col-md-8 md_rendered_doc">
-            {{ md_html }}
+        <div class="col-md-8">
+
+            <!-- tab navigation -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">General</a></li>
+                <li role="presentation"><a href="#networks" aria-controls="networks" role="tab" data-toggle="tab">Networks</a></li>
+                <li role="presentation"><a href="#packages" aria-controls="packages" role="tab" data-toggle="tab">Packages</a></li>
+                <li role="presentation"><a href="#users" aria-controls="users" role="tab" data-toggle="tab">Users</a></li>
+            </ul>
+
+            <!-- tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="general">
+                    <i>Some general information ...</i>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="networks">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Interface</th>
+                                <th>MAC address</th>
+                                <th>IPv4</th>
+                                <th>Netmask</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for network in minion.networkinterface_set.all %}
+                                <tr>
+                                    <td>{{ network.name }}</td>
+                                    <td>{{ network.mac_address }}</td>
+                                    <td>{{ network.network.ipv4 }}</td>
+                                    <td><a href="{% url 'network-detail' network.network.ipv4 %}">{{ network.network.mask }}</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="packages">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Version</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for package, version in minion.get_data.packages.items %}
+                                <tr>
+                                    <td>{{ package }}</td>
+                                    <td>{{ version }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="users">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Home</th>
+                                <th>Shell</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in minion.get_data.grains.users %}
+                                <tr>
+                                    <td>{{ user.id }}</td>
+                                    <td>{{ user.name }}</td>
+                                    <td><code>{{ user.home }}</code></td>
+                                    <td><code>{{ user.shell }}</code></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
-        <div class="col-md-4 toc-wrapper">
-            <h3>Inhalt</h3>
-            {{ toc }}
+        <div class="col-md-4">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Operating system</td>
+                        <td>{{ minion.get_data.grains.os }} {{ minion.get_data.grains.osrelease }} {{ minion.get_data.grains.oscodename }} <span class="text-muted">({{ minion.get_data.grains.osarch }})</span></td>
+                    </tr>
+                    <tr>
+                        <td>Salt version</td>
+                        <td>{{ minion.get_data.grains.saltversion }}</td>
+                    </tr>
+                    <tr>
+                        <td>CPU</td>
+                        <td>{{ minion.get_data.grains.num_cpus }} Cores <span class="text-muted">({{ minion.get_data.grains.cpuarch }})</span></td>
+                    </tr>
+                    <tr>
+                        <td>RAM</td>
+                        <td>{{ minion.get_data.grains.mem_total }} Mb</td>
+                    </tr>
+                    <tr>
+                        <td>VM Ware status</td>
+                        <td>
+                            {% with minion.get_data.grains|get:"vmware-tools-status" as vmwarestatus %}
+                                {% if vmwarestatus == 'NOT-INSTALLED' %}
+                                    <span class="text-danger"><i class="fa fa-fw fa-times"></i> Not installed</span>
+                                {% elif vmwarestatus == 'OUT-OF-DATE' %}
+                                    <span class="text-warning"><i class="fa fa-fw fa-exclamation"> Out of date</i></span>
+                                {% else %}
+                                    <span class="text-success"><i class="fa fa-fw fa-check"></i> Ok</span>
+                                {% endif %}
+                            {% endwith %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Kernel version</td>
+                        <td>{{ minion.get_data.grains.kernel }} {{ minion.get_data.grains.kernelrelease }}</td>
+                    </tr>
+                    <tr>
+                        <td>Bios version</td>
+                        <td>{{ minion.get_data.grains.biosreleasedate }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
     <hr/>
     <p class="footnote text-muted">
-        <i>Grains aktuell vom {{ minion.last_updated|date:"d.m.y - H:i" }} Uhr</i>
+        <i>Daten aktuell vom {{ minion.last_updated|date:"d.m.y - H:i" }} Uhr</i>
     </p>
 {% endblock %}
