@@ -20,7 +20,7 @@
                 iconSortAsc: 'fa fa-sort-asc',
                 iconSortDesc: 'fa fa-sort-desc',
             };
-            $('#usertable').tablesorter({
+            $('#usertable, #partitiontable').tablesorter({
                 theme: 'bootstrap',
                 headerTemplate: '{content} {icon}',
                 sortList: [[0,0]],
@@ -54,6 +54,7 @@
                 <li role="presentation"><a href="#networks" aria-controls="networks" role="tab" data-toggle="tab">Networks</a></li>
                 <li role="presentation"><a href="#packages" aria-controls="packages" role="tab" data-toggle="tab">Packages</a></li>
                 <li role="presentation"><a href="#users" aria-controls="users" role="tab" data-toggle="tab">Users</a></li>
+                <li role="presentation"><a href="#partitions" aria-controls="partitions" role="tab" data-toggle="tab">Partitions</a></li>
             </ul>
 
             <!-- tab panes -->
@@ -206,6 +207,30 @@
                                     <td>{{ user.name }}</td>
                                     <td><code>{{ user.home }}</code></td>
                                     <td><code>{{ user.shell }}</code></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="partitions">
+                    <table id="partitiontable" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Device</th>
+                                <th>Mountpoint</th>
+                                <th>FsType</th>
+                                <th>Size</th>
+                                <th>Used</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for device in minion.get_data.mounted_devices %}
+                                <tr class="{% if device.percent > 90 %}danger{% elif device.percent > 65 %}warning{% endif %}">
+                                    <td><samp>{{ device.device }}</samp></td>
+                                    <td><samp>{{ device.mountpoint }}</samp></td>
+                                    <td>{{ device.fstype }}</td>
+                                    <td>{{ device.total|filesizeformat }}</td>
+                                    <td>{{ device.percent }} %</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
