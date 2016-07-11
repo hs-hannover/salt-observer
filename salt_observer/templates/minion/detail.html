@@ -46,7 +46,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
 
             <!-- tab navigation -->
             <ul class="nav nav-tabs" role="tablist">
@@ -59,7 +59,61 @@
             <!-- tab panes -->
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active" id="general">
-                    <i>Some general information ...</i>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <i>Hier soll man in Zukunft eigenes Markdown hinterlegen können ...</i>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Property</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Operating system</td>
+                                        <td>{{ minion.get_data.grains.os }} {{ minion.get_data.grains.osrelease }} {{ minion.get_data.grains.oscodename }} <span class="text-muted">({{ minion.get_data.grains.osarch }})</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Salt version</td>
+                                        <td>{{ minion.get_data.grains.saltversion }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>CPU</td>
+                                        <td>{{ minion.get_data.grains.num_cpus }} Cores <span class="text-muted">({{ minion.get_data.grains.cpuarch }})</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>RAM</td>
+                                        <td>{{ minion.get_data.grains.mem_total }} Mb</td>
+                                    </tr>
+                                    <tr>
+                                        <td>VM Ware status</td>
+                                        <td>
+                                            {% with minion.get_data.grains|get:"vmware-tools-status" as vmwarestatus %}
+                                                {% if vmwarestatus == 'NOT-INSTALLED' %}
+                                                    <span class="text-danger"><i class="fa fa-fw fa-times"></i> Not installed</span>
+                                                {% elif vmwarestatus == 'OUT-OF-DATE' %}
+                                                    <span class="text-warning"><i class="fa fa-fw fa-exclamation"> Out of date</i></span>
+                                                {% else %}
+                                                    <span class="text-success"><i class="fa fa-fw fa-check"></i> Up to date</span>
+                                                {% endif %}
+                                            {% endwith %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kernel version</td>
+                                        <td>{{ minion.get_data.grains.kernel }} {{ minion.get_data.grains.kernelrelease }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bios version</td>
+                                        <td>{{ minion.get_data.grains.biosreleasedate }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="networks">
                     <table class="table">
@@ -158,57 +212,7 @@
                     </table>
                 </div>
             </div>
-
-        </div>
-        <div class="col-md-4">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Property</th>
-                        <th>Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Operating system</td>
-                        <td>{{ minion.get_data.grains.os }} {{ minion.get_data.grains.osrelease }} {{ minion.get_data.grains.oscodename }} <span class="text-muted">({{ minion.get_data.grains.osarch }})</span></td>
-                    </tr>
-                    <tr>
-                        <td>Salt version</td>
-                        <td>{{ minion.get_data.grains.saltversion }}</td>
-                    </tr>
-                    <tr>
-                        <td>CPU</td>
-                        <td>{{ minion.get_data.grains.num_cpus }} Cores <span class="text-muted">({{ minion.get_data.grains.cpuarch }})</span></td>
-                    </tr>
-                    <tr>
-                        <td>RAM</td>
-                        <td>{{ minion.get_data.grains.mem_total }} Mb</td>
-                    </tr>
-                    <tr>
-                        <td>VM Ware status</td>
-                        <td>
-                            {% with minion.get_data.grains|get:"vmware-tools-status" as vmwarestatus %}
-                                {% if vmwarestatus == 'NOT-INSTALLED' %}
-                                    <span class="text-danger"><i class="fa fa-fw fa-times"></i> Not installed</span>
-                                {% elif vmwarestatus == 'OUT-OF-DATE' %}
-                                    <span class="text-warning"><i class="fa fa-fw fa-exclamation"> Out of date</i></span>
-                                {% else %}
-                                    <span class="text-success"><i class="fa fa-fw fa-check"></i> Up to date</span>
-                                {% endif %}
-                            {% endwith %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Kernel version</td>
-                        <td>{{ minion.get_data.grains.kernel }} {{ minion.get_data.grains.kernelrelease }}</td>
-                    </tr>
-                    <tr>
-                        <td>Bios version</td>
-                        <td>{{ minion.get_data.grains.biosreleasedate }}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <!-- tab panes end -->
         </div>
     </div>
 
