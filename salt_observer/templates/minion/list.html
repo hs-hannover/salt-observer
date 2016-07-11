@@ -47,7 +47,6 @@
                 <th>Networks</th>
                 <th>Users</th>
                 <th>Installed Packages</th>
-                <th>VM Ware Status</th>
             </tr>
         </thead>
         <tbody>
@@ -58,17 +57,6 @@
                     <td>{{ minion.network_count }}</td>
                     <td>{{ minion.user_count }}</td>
                     <td>{{ minion.package_count }} {% if minion.outdated_package_count %}<small class="text-danger">({{ minion.outdated_package_count }})</small>{% endif %}</td>
-                    <td>
-                        {% with minion.get_data.grains|get:"vmware-tools-status" as vmwarestatus %}
-                            {% if vmwarestatus == 'NOT-INSTALLED' %}
-                                <span class="text-danger"><i class="fa fa-fw fa-times"></i> Not installed</span>
-                            {% elif vmwarestatus == 'OUT-OF-DATE' %}
-                                <span class="text-warning"><i class="fa fa-fw fa-exclamation"> Out of date</i></span>
-                            {% else %}
-                                <span class="text-success"><i class="fa fa-fw fa-check"></i> Up to date</span>
-                            {% endif %}
-                        {% endwith %}
-                    </td>
                 </tr>
             {% endfor %}
         </tbody>
