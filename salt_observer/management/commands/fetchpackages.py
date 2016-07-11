@@ -10,8 +10,8 @@ class Command(ApiCommand, BaseCommand):
     help = 'Fetch and save packagedata'
 
     def save_packages(self, api):
-        packages = api.get_server_module_data('pkg.list_pkgs')
-        upgrades = api.get_server_module_data('pkg.list_upgrades')
+        packages = api.get('pkg.list_pkgs')
+        upgrades = api.get('pkg.list_upgrades')
 
         for minion_fqdn, minion_packages in packages.items():
 

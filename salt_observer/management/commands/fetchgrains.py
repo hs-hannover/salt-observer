@@ -78,7 +78,7 @@ class Command(ApiCommand, BaseCommand):
     def handle(self, *args, **kwargs):
         api = super().handle(*args, **kwargs)
 
-        touched_elements = self._update_data(api.get_server_grains())
+        touched_elements = self._update_data(api.get('grains.items'))
         self._cleanup(touched_elements)
 
         api.logout()

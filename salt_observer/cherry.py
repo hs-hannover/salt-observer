@@ -42,10 +42,7 @@ class SaltCherrypyApi(object):
             }
         )
 
-    def get_server_grains(self):
-        return self.request({'tgt': '*', 'fun': 'grains.items'}).json().get('return')[0]
-
-    def get_server_module_data(self, module, target='*', api_args=[], api_kwargs={}):
+    def get(self, module, target='*', api_args=[], api_kwargs={}):
         return self.request({
             'fun': module,
             'tgt': target,

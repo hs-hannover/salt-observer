@@ -10,7 +10,7 @@ class Command(ApiCommand, BaseCommand):
     help = 'Fetch and save mount points data'
 
     def save_packages(self, api):
-        mount_point_devices = api.get_server_module_data('ps.disk_partition_usage')
+        mount_point_devices = api.get('ps.disk_partition_usage')
 
         for minion_fqdn, devices in mount_point_devices.items():
 
