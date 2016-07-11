@@ -1,5 +1,4 @@
 from django.core.management.base import BaseCommand
-from django.utils import timezone
 
 from salt_observer.models import Minion
 from . import ApiCommand
@@ -8,7 +7,7 @@ import json
 
 
 class Command(ApiCommand, BaseCommand):
-    help = 'Fetch and save new data from all servers'
+    help = 'Fetch and save packagedata'
 
     def save_packages(self, api):
         packages = api.get_server_module_data('pkg.list_pkgs')
