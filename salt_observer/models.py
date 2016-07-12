@@ -30,6 +30,9 @@ class Domain(models.Model):
     fqdn = models.CharField(max_length=255)
     minion = models.ManyToManyField('Minion', blank=True)
 
+    can_speak_https = models.BooleanField(help_text='Is there a service listening on port 443')
+    public = models.BooleanField(help_text='Is this domain public accessible')
+
     def minion_count(self):
         return len(self.minion.all())
 

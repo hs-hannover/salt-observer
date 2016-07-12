@@ -31,6 +31,6 @@ admin.site.register(Network, NetworkAdmin)
 
 
 class DomainAdmin(admin.ModelAdmin):
-    list_display = ('fqdn', 'minion_count')
+    list_display = ('fqdn', 'minion_count', 'public', 'can_speak_https')
     filter_horizontal = ('minion',)
 admin.site.register(Domain, DomainAdmin)
