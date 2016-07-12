@@ -1,6 +1,8 @@
 from django.contrib import admin
 
-from salt_observer.models import Minion, Network, NetworkInterface
+from salt_observer.models import (
+    Minion, Network, NetworkInterface, Domain
+)
 
 
 class NetworkInterfaceInline(admin.TabularInline):
@@ -26,3 +28,9 @@ class NetworkAdmin(admin.ModelAdmin):
     inlines = [NetworkInterfaceInline]
     readonly_fields = ('ipv4', 'mask', 'last_updated')
 admin.site.register(Network, NetworkAdmin)
+
+
+class DomainAdmin(admin.ModelAdmin):
+    list_display = ('fqdn', 'minion_count')
+    filter_horizontal = ('minion',)
+admin.site.register(Domain, DomainAdmin)

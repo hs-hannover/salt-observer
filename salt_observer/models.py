@@ -24,6 +24,19 @@ class Network(MarkdownContent):
         return self.ipv4
 
 
+class Domain(models.Model):
+    ''' Represents a Fully qualified domain name '''
+
+    fqdn = models.CharField(max_length=255)
+    minion = models.ManyToManyField('Minion', blank=True)
+
+    def minion_count(self):
+        return len(self.minion.all())
+
+    def __str__(self):
+        return self.fqdn
+
+
 class Minion(MarkdownContent):
     ''' Representation of a Server in Salt '''
 

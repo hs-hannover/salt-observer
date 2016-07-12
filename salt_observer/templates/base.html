@@ -26,6 +26,7 @@
                     {% block sidebar %}
                         <ul class="nav nav-sidebar">
                             <li {% block nav-dashboard %}{% endblock %}><a href="{% url 'dashboard' %}"><i class="fa fa-fw fa-2x fa-bullhorn"></i> Dashboard</a></li>
+                            <li {% block nav-domains %}{% endblock %}><a href="{% url 'domain-list' %}"><i class="fa fa-fw fa-2x fa-link"></i> Domains</a></li>
                             <li {% block nav-minions %}{% endblock %}><a href="{% url 'minion-list' %}"><i class="fa fa-fw fa-2x fa-server"></i> Minions</a></li>
                             <li {% block nav-networks %}{% endblock %}><a href="{% url 'network-list' %}"><i class="fa fa-fw fa-2x fa-plug"></i> Networks</a></li>
                             <li {% block nav-commands %}{% endblock %}><a href="#"><i class="fa fa-fw fa-2x fa-terminal"></i> Commands</a></li>

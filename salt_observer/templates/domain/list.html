@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block nav-domains %}class="active"{% endblock %}
+
+{% block post-script %}
+    <script>
+        $(function() {
+            $.tablesorter.themes.bootstrap = {
+                header: 'bootstrap-header',
+                iconSortNone: 'fa fa-sort',
+                iconSortAsc: 'fa fa-sort-asc',
+                iconSortDesc: 'fa fa-sort-desc',
+            };
+            $("#domain-table").tablesorter({
+                theme: "bootstrap",
+                headerTemplate: '{content} {icon}',
+                sortList: [[0,0]],
+                widgets: ["uitheme"],
+            });
+            $("#domain-table").filterTable({
+                inputSelector: '#domain-table-filter',
+            });
+        })
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Domains</h1>
+    </div>
+    <div class="row margin-bottom-wrapper">
+        <div class="col-md-3">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-search fa-fw"></i></span>
+                <input id="domain-table-filter" class="form-control" placeholder="Suchen nach ..." type="search">
+            </div>
+        </div>
+    </div>
+
+    <table id="domain-table" class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Domain name (fqdn)</th>
+                <th>Applied minions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for domain in domain_list %}
+                <tr>
+                    <td>{{ domain.fqdn }}</td>
+                    <td>{{ domain.minion_count }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

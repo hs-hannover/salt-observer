@@ -9,7 +9,9 @@ from django.conf import settings
 
 from markdown import Markdown
 
-from salt_observer.models import Minion, Network
+from salt_observer.models import (
+    Minion, Network, Domain
+)
 
 
 class Dashboard(TemplateView):
@@ -36,3 +38,8 @@ class NetworkDetail(DetailView):
     template_name = 'network/detail.html'
     model = Network
     slug_field = 'ipv4'
+
+
+class DomainList(ListView):
+    template_name = 'domain/list.html'
+    model = Domain

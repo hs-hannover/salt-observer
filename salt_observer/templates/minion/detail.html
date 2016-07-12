@@ -51,6 +51,7 @@
             <!-- tab navigation -->
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">General</a></li>
+                <li role="presentation"><a href="#domains" aria-controls="domains" role="tab" data-toggle="tab">Domains</a></li>
                 <li role="presentation"><a href="#networks" aria-controls="networks" role="tab" data-toggle="tab">Networks</a></li>
                 <li role="presentation"><a href="#packages" aria-controls="packages" role="tab" data-toggle="tab">Packages</a></li>
                 <li role="presentation"><a href="#users" aria-controls="users" role="tab" data-toggle="tab">Users</a></li>
@@ -109,6 +110,25 @@
                             </table>
                         </div>
                     </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="domains">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Fqdn</th>
+                                <th>Applied minions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for domain in minion.domain_set.all %}
+                                <tr>
+                                    <td>{{ domain.fqdn }}</td>
+                                    <td>{{ domain.minion_count }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <i>Hier sollen in Zukunft mehr Informationen wie bspw. SSL Cert checks usw. angezeigt werden ...</i>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="networks">
                     <table class="table">
