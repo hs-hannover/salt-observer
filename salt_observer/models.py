@@ -29,28 +29,43 @@ class Minion(MarkdownContent):
 
     fqdn = models.CharField(max_length=255)
     networks = models.ManyToManyField(Network, through='NetworkInterface')
-    data = models.TextField(default='{}')
+    _data = models.TextField(default='{}')
 
     last_updated = models.DateTimeField()
 
     @property
-    def get_data(self):
-        return json.loads(self.data)
+    def data(self):
+        try:
+            return json.loads(self._data)
+        except ValueError:
+            return dict()
+
+    @data.setter
+    def data(self, value):
+        self._data = json.dumps(value)
+
+    def update_data(self, value):
+        ''' In order to update self.data without 3 lines of code
+            self.data.update() wont work!
+        '''
+        data = self.data
+        data.update(value)
+        self.data = data
 
     @property
     def user_count(self):
-        return len(self.get_data.get('grains', {}).get('users', []))
+        return len(self.data.get('grains', {}).get('users', []))
 
     @property
     def package_count(self):
-        return len(self.get_data.get('packages', []))
+        return len(self.data.get('packages', []))
 
     @property
     def network_count(self):
         return len(self.networks.all())
 
     def outdated_package_count(self):
-        return len([p for p, v in self.get_data.get('packages').items() if v['latest_version']])
+        return len([p for p, v in self.data.get('packages', {}).items() if v['latest_version']])
 
     def __str__(self):
         return self.fqdn

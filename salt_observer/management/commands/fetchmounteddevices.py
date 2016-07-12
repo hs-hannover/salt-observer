@@ -15,12 +15,7 @@ class Command(ApiCommand, BaseCommand):
         for minion_fqdn, devices in mount_point_devices.items():
 
             minion = Minion.objects.filter(fqdn=minion_fqdn).first()
-            minion_data = json.loads(minion.data)
-
-            mounted_devices = devices
-
-            minion_data['mounted_devices'] = mounted_devices
-            minion.data = json.dumps(minion_data)
+            minion.update_data({'mounted_devices': devices})
             minion.save()
 
     def handle(self, *args, **kwargs):

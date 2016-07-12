@@ -53,7 +53,7 @@
             {% for minion in minion_list %}
                 <tr>
                     <td><a href="{% url 'minion-detail' minion.fqdn %}">{{ minion }}</a></td>
-                    <td><code>{{ minion.get_data.grains.os }} {{ minion.get_data.grains.osrelease }} {{ minion.get_data.grains.oscodename }}</code></td>
+                    <td><code>{{ minion.data.grains.os }} {{ minion.data.grains.osrelease }} {{ minion.data.grains.oscodename }}</code></td>
                     <td>{{ minion.network_count }}</td>
                     <td>{{ minion.user_count }}</td>
                     <td>{{ minion.package_count }} {% if minion.outdated_package_count %}<small class="text-danger">({{ minion.outdated_package_count }})</small>{% endif %}</td>

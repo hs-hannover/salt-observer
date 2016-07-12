@@ -16,7 +16,6 @@ class Command(ApiCommand, BaseCommand):
         for minion_fqdn, minion_packages in packages.items():
 
             minion = Minion.objects.filter(fqdn=minion_fqdn).first()
-            minion_data = json.loads(minion.data)
 
             minion_package_data = {}
             for minion_package_name, minion_package_version in minion_packages.items():
@@ -30,8 +29,7 @@ class Command(ApiCommand, BaseCommand):
                     }
                 })
 
-            minion_data['packages'] = minion_package_data
-            minion.data = json.dumps(minion_data)
+            minion.update_data({'packages': minion_package_data})
             minion.save()
 
     def handle(self, *args, **kwargs):

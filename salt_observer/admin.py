@@ -18,6 +18,7 @@ class NetworkInterfaceInline(admin.TabularInline):
 class MinionAdmin(admin.ModelAdmin):
     inlines = [NetworkInterfaceInline]
     readonly_fields = ('fqdn', 'data', 'last_updated')
+    exclude = ('_data',)
 admin.site.register(Minion, MinionAdmin)
 
 

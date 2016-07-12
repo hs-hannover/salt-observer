@@ -26,12 +26,10 @@ class Command(ApiCommand, BaseCommand):
         ''' Update minions related to grains we got '''
         minion = Minion.objects.filter(fqdn=fqdn).first()
         if minion:
-            data = json.loads(minion.data)
-            data['grains'] = grains
-            minion.data = json.dumps(data)
+            minion.update_data({'grains': grains})
             minion.last_updated = timezone.now()
         else:
-            minion = Minion(fqdn=fqdn, data=json.dumps({'grains': grains}), last_updated=timezone.now())
+            minion = Minion(fqdn=fqdn, data={'grains': grains}, last_updated=timezone.now())
         minion.save()
         return minion
 

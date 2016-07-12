@@ -69,24 +69,24 @@
                                 <tbody>
                                     <tr>
                                         <td>Operating system</td>
-                                        <td>{{ minion.get_data.grains.os }} {{ minion.get_data.grains.osrelease }} {{ minion.get_data.grains.oscodename }} <span class="text-muted">({{ minion.get_data.grains.osarch }})</span></td>
+                                        <td>{{ minion.data.grains.os }} {{ minion.data.grains.osrelease }} {{ minion.data.grains.oscodename }} <span class="text-muted">({{ minion.data.grains.osarch }})</span></td>
                                     </tr>
                                     <tr>
                                         <td>Salt version</td>
-                                        <td>{{ minion.get_data.grains.saltversion }}</td>
+                                        <td>{{ minion.data.grains.saltversion }}</td>
                                     </tr>
                                     <tr>
                                         <td>CPU</td>
-                                        <td>{{ minion.get_data.grains.num_cpus }} Cores <span class="text-muted">({{ minion.get_data.grains.cpuarch }})</span></td>
+                                        <td>{{ minion.data.grains.num_cpus }} Cores <span class="text-muted">({{ minion.data.grains.cpuarch }})</span></td>
                                     </tr>
                                     <tr>
                                         <td>RAM</td>
-                                        <td>{{ minion.get_data.grains.mem_total }} Mb</td>
+                                        <td>{{ minion.data.grains.mem_total }} Mb</td>
                                     </tr>
                                     <tr>
                                         <td>VM Ware status</td>
                                         <td>
-                                            {% with minion.get_data.grains|get:"vmware-tools-status" as vmwarestatus %}
+                                            {% with minion.data.grains|get:"vmware-tools-status" as vmwarestatus %}
                                                 {% if vmwarestatus == 'NOT-INSTALLED' %}
                                                     <span class="text-danger"><i class="fa fa-fw fa-times"></i> Not installed</span>
                                                 {% elif vmwarestatus == 'OUT-OF-DATE' %}
@@ -99,11 +99,11 @@
                                     </tr>
                                     <tr>
                                         <td>Kernel version</td>
-                                        <td>{{ minion.get_data.grains.kernel }} {{ minion.get_data.grains.kernelrelease }}</td>
+                                        <td>{{ minion.data.grains.kernel }} {{ minion.data.grains.kernelrelease }}</td>
                                     </tr>
                                     <tr>
                                         <td>Bios version</td>
-                                        <td>{{ minion.get_data.grains.biosreleasedate }}</td>
+                                        <td>{{ minion.data.grains.biosreleasedate }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -162,7 +162,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for package, versions in minion.get_data.packages.items %}
+                            {% for package, versions in minion.data.packages.items %}
                                 <tr {% if versions.latest_version != '' %}class="warning"{% endif %}>
                                     <td>{{ package }}</td>
                                     <td>{{ versions.version }}</td>
@@ -195,7 +195,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for user in minion.get_data.grains.users %}
+                            {% for user in minion.data.grains.users %}
                                 <tr data-uid="{{ user.id }}">
                                     <td>{{ user.id }}</td>
                                     <td>{{ user.name }}</td>
@@ -218,7 +218,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for device in minion.get_data.mounted_devices %}
+                            {% for device in minion.data.mounted_devices %}
                                 <tr class="{% if device.percent > 90 %}danger{% elif device.percent > 65 %}warning{% endif %}">
                                     <td><samp>{{ device.device }}</samp></td>
                                     <td><samp>{{ device.mountpoint }}</samp></td>
