@@ -115,8 +115,10 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>Fqdn</th>
+                                <th>Domain name (fqdn)</th>
                                 <th>Applied minions</th>
+                                <th>Public</th>
+                                <th>HTTPS</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -124,6 +126,20 @@
                                 <tr>
                                     <td>{{ domain.fqdn }}</td>
                                     <td>{{ domain.minion_count }}</td>
+                                    <td>
+                                        {% if domain.public %}
+                                            <span class="text-success"><i class="fa fa-fw fa-check"></i> Yes</span>
+                                        {% else %}
+                                            <span class="text-danger"><i class="fa fa-fw fa-times"></i> No</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if domain.can_speak_https %}
+                                            <span class="text-success"><i class="fa fa-fw fa-check"></i> Yes</span>
+                                        {% else %}
+                                            <span class="text-danger"><i class="fa fa-fw fa-times"></i> No</span>
+                                        {% endif %}
+                                    </td>
                                 </tr>
                             {% endfor %}
                         </tbody>

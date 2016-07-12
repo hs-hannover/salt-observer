@@ -44,6 +44,7 @@
             <tr>
                 <th>Minion ID</th>
                 <th>OS Name</th>
+                <th>Domains</th>
                 <th>Networks</th>
                 <th>Users</th>
                 <th>Installed Packages</th>
@@ -54,6 +55,7 @@
                 <tr>
                     <td><a href="{% url 'minion-detail' minion.fqdn %}">{{ minion }}</a></td>
                     <td><code>{{ minion.data.grains.os }} {{ minion.data.grains.osrelease }} {{ minion.data.grains.oscodename }}</code></td>
+                    <td>{{ minion.domain_set.all|length }}</td>
                     <td>{{ minion.network_count }}</td>
                     <td>{{ minion.user_count }}</td>
                     <td>{{ minion.package_count }} {% if minion.outdated_package_count %}<small class="text-danger">({{ minion.outdated_package_count }})</small>{% endif %}</td>
