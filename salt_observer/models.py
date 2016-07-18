@@ -7,7 +7,7 @@ import requests
 class MarkdownContent(models.Model):
     ''' To enable on-the-fly modification of templates '''
 
-    md_content = models.TextField()
+    md_content = models.TextField(blank=True)
 
     class Meta:
         abstract = True
@@ -47,7 +47,7 @@ class Domain(MarkdownContent):
     def ssl_lab_status(self, value):
         self._ssl_lab_status = json.dumps(value)
 
-    def check_if_valid(self):
+    def check_if_valid(self, commit=True):
         try:
             a = requests.get('http://{}/'.format(self.fqdn), timeout=5, verify=False)
             b = requests.get('https://{}/'.format(self.fqdn), timeout=5, verify=False)
@@ -56,12 +56,15 @@ class Domain(MarkdownContent):
         else:
             self.valid = True
 
+        if commit:
+            self.save()
+
     def minion_count(self):
         return len(self.minion.all())
 
     def save(self, *args, **kwargs):
         if not self.id:
-            self.check_if_valid()
+            self.check_if_valid(commit=False)
         super().save(*args, **kwargs)
 
     def __str__(self):
