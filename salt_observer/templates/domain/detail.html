@@ -93,26 +93,42 @@
                 <div role="tabpanel" class="tab-pane fade" id="ssllabs">
                     <div class="row">
                         <div class="col-md-6">
-                            <h2>Grades</h2>
-                            <div>
-                                {% for grade in domain.ssl_lab_status.grades %}
-                                    <span class="ssllabgrade big {{ grade|first|lower }}">{{ grade }}</span>
-                                {% empty %}
-                                    <p><i>This domain couldn't be checked.</i></p>
-                                {% endfor %}
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">
+                                        Grades <span class="pull-right">
+                                            <a href="https://www.ssllabs.com/ssltest/analyze.html?d={{ domain.fqdn }}" target="_blank">
+                                                <i class="fa fa-external-link"></i> View on ssllabs.com
+                                            </a>
+                                        </span>
+                                    </h3>
+                                </div>
+                                <div class="panel-body">
+                                    {% for grade in domain.ssl_lab_status.grades %}
+                                        <span class="ssllabgrade big {{ grade|first|lower }}">{{ grade }}</span>
+                                    {% empty %}
+                                        <p><i>This domain couldn't be checked.</i></p>
+                                    {% endfor %}
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <h2>Messages</h2>
-                            {% if domain.ssl_lab_status.messages %}
-                                <ul>
-                                    {% for message in domain.ssl_lab_status.messages %}
-                                        <li>{{ message }}</li>
-                                    {% endfor %}
-                                </ul>
-                            {% else %}
-                                <p><i>No messages for this Domain.</i></p>
-                            {% endif %}
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Messages</h3>
+                                </div>
+                                <div class="panel-body">
+                                    {% if domain.ssl_lab_status.messages %}
+                                        <ul>
+                                            {% for message in domain.ssl_lab_status.messages %}
+                                                <li>{{ message }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <p><i>No messages for this Domain.</i></p>
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
