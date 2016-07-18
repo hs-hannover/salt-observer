@@ -8,51 +8,66 @@
     </div>
 
     <div class="row">
-        <div class="col-md-8">
-            <h1>Im Netzwerk vorhandene Minions</h1>
+        <div class="col-md-12">
 
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Minion Fqdn</th>
-                        <th>Network interfaces</th>
-                        <th>MAC address</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for minion in network.minion_set.all %}
-                        <tr>
-                            <td><a href="{% url 'minion-detail' minion.fqdn %}">{{ minion.fqdn }}</a></td>
-                            {% for ni in minion.networkinterface_set.all %}
-                                {% if ni.network.ipv4 == network.ipv4 %}
-                                    <td>{{ ni.name }}</td>
-                                    <td>{{ ni.mac_address }}</td>
-                                {% endif %}
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">General</a></li>
+                <li role="presentation"><a href="#minions" aria-controls="minions" role="tab" data-toggle="tab">Connected minions</a></li>
+            </ul>
+
+            <!-- tab panes -->
+            <div class="tab-content">
+
+                <!-- general -->
+                <div role="tabpanel" class="tab-pane fade in active" id="general">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <i>Hier soll man in Zukunft eigenes Markdown hinterlegen können ...</i>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table datatable">
+                                <tbody>
+                                    <tr>
+                                        <td>Network</td>
+                                        <td>{{ network.ipv4 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Subnetmask</td>
+                                        <td>{{ network.mask }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- minions -->
+                <div role="tabpanel" class="tab-pane fade" id="minions">
+                    <table class="table sortable">
+                        <thead>
+                            <tr>
+                                <th>Minion Fqdn</th>
+                                <th>Network interfaces</th>
+                                <th>MAC address</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for minion in network.minion_set.all %}
+                                <tr>
+                                    <td><a href="{% url 'minion-detail' minion.fqdn %}">{{ minion.fqdn }}</a></td>
+                                    {% for ni in minion.networkinterface_set.all %}
+                                        {% if ni.network.ipv4 == network.ipv4 %}
+                                            <td>{{ ni.name }}</td>
+                                            <td>{{ ni.mac_address }}</td>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tr>
                             {% endfor %}
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <div class="col-md-4">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Property</th>
-                        <th>Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Netzwerk</td>
-                        <td>{{ network.ipv4 }}</td>
-                    </tr>
-                    <tr>
-                        <td>Subnet Mask</td>
-                        <td>{{ network.mask }}</td>
-                    </tr>
-                </tbody>
-            </table>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
         </div>
     </div>
 
