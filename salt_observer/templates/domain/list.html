@@ -6,18 +6,6 @@
 {% block post-script %}
     <script>
         $(function() {
-            $.tablesorter.themes.bootstrap = {
-                header: 'bootstrap-header',
-                iconSortNone: 'fa fa-sort',
-                iconSortAsc: 'fa fa-sort-asc',
-                iconSortDesc: 'fa fa-sort-desc',
-            };
-            $("#domain-table").tablesorter({
-                theme: "bootstrap",
-                headerTemplate: '{content} {icon}',
-                sortList: [[0,0]],
-                widgets: ["uitheme"],
-            });
             $("#domain-table").filterTable({
                 inputSelector: '#domain-table-filter',
             });
@@ -38,7 +26,7 @@
         </div>
     </div>
 
-    <table id="domain-table" class="table table-striped table-hover">
+    <table id="domain-table" class="table table-striped table-hover sortable">
         <thead>
             <tr>
                 <th>Domain name (fqdn)</th>

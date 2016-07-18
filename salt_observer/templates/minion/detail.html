@@ -14,18 +14,6 @@
             toggleSystemUsers();
             $('#toggleSystemUsers').click(toggleSystemUsers);
 
-            $.tablesorter.themes.bootstrap = {
-                header: 'bootstrap-header',
-                iconSortNone: 'fa fa-sort',
-                iconSortAsc: 'fa fa-sort-asc',
-                iconSortDesc: 'fa fa-sort-desc',
-            };
-            $('#usertable, #partitiontable').tablesorter({
-                theme: 'bootstrap',
-                headerTemplate: '{content} {icon}',
-                sortList: [[0,0]],
-                widgets: ['uitheme'],
-            });
             $('#packagetable').tablesorter({
                 theme: 'bootstrap',
                 headerTemplate: '{content} {icon}',
@@ -147,7 +135,7 @@
                     <i>Hier sollen in Zukunft mehr Informationen wie bspw. SSL Cert checks usw. angezeigt werden ...</i>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="networks">
-                    <table class="table">
+                    <table class="table sortable">
                         <thead>
                             <tr>
                                 <th>Interface</th>
@@ -221,7 +209,7 @@
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="users">
                     <button id="toggleSystemUsers" type="button" class="btn btn-default margin-bottom-wrapper" data-toggle="button" aria-pressed="false" autocomplete="off">Toggle system users</button>
-                    <table id="usertable" class="table table-hover">
+                    <table id="usertable" class="table table-hover sortable">
                         <thead>
                             <tr>
                                 <th>Id</th>
@@ -243,7 +231,7 @@
                     </table>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="partitions">
-                    <table id="partitiontable" class="table table-hover">
+                    <table class="table table-hover sortable">
                         <thead>
                             <tr>
                                 <th>Device</th>
