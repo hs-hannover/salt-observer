@@ -1,6 +1,7 @@
 from django.db import models
 
 import json
+import requests
 
 
 class MarkdownContent(models.Model):
@@ -24,17 +25,44 @@ class Network(MarkdownContent):
         return self.ipv4
 
 
-class Domain(models.Model):
+class Domain(MarkdownContent):
     ''' Represents a Fully qualified domain name '''
 
     fqdn = models.CharField(max_length=255)
     minion = models.ManyToManyField('Minion', blank=True)
+    _ssl_lab_status = models.TextField(default='{}')
 
     can_speak_https = models.BooleanField(help_text='Is there a service listening on port 443')
     public = models.BooleanField(help_text='Is this domain public accessible')
+    valid = models.BooleanField()
+
+    @property
+    def ssl_lab_status(self):
+        try:
+            return json.loads(self._ssl_lab_status)
+        except ValueError:
+            return dict()
+
+    @ssl_lab_status.setter
+    def ssl_lab_status(self, value):
+        self._ssl_lab_status = json.dumps(value)
+
+    def check_if_valid(self):
+        try:
+            a = requests.get('http://{}/'.format(self.fqdn), timeout=5, verify=False)
+            b = requests.get('https://{}/'.format(self.fqdn), timeout=5, verify=False)
+        except (requests.exceptions.ConnectionError, requests.exceptions.Timeout):
+            self.valid = False
+        else:
+            self.valid = True
 
     def minion_count(self):
         return len(self.minion.all())
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.check_if_valid()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.fqdn

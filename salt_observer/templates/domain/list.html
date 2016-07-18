@@ -31,15 +31,24 @@
             <tr>
                 <th>Domain name (fqdn)</th>
                 <th>Applied minions</th>
+                <th>Valid</th>
                 <th>Public</th>
                 <th>HTTPS</th>
+                <th>SSL Lab Grade(s)</th>
             </tr>
         </thead>
         <tbody>
             {% for domain in domain_list %}
                 <tr>
-                    <td>{{ domain.fqdn }}</td>
+                    <td><a href="{% url 'domain-detail' domain.fqdn %}">{{ domain.fqdn }}</a></td>
                     <td>{{ domain.minion_count }}</td>
+                    <td>
+                        {% if domain.valid %}
+                            <span class="text-success"><i class="fa fa-fw fa-check"></i> Yes</span>
+                        {% else %}
+                            <span class="text-danger"><i class="fa fa-fw fa-times"></i> No</span>
+                        {% endif %}
+                    </td>
                     <td>
                         {% if domain.public %}
                             <span class="text-success"><i class="fa fa-fw fa-check"></i> Yes</span>
@@ -53,6 +62,11 @@
                         {% else %}
                             <span class="text-danger"><i class="fa fa-fw fa-times"></i> No</span>
                         {% endif %}
+                    </td>
+                    <td>
+                        {% for grade in domain.ssl_lab_status.grades %}
+                            <span class="ssllabgrade {{ grade|first|lower }}">{{ grade }}</span>
+                        {% endfor %}
                     </td>
                 </tr>
             {% endfor %}

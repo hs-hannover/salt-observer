@@ -14,3 +14,42 @@
 .next-to-input-text {
     margin-top: 7px;
 }
+
+.gradecolor(@bc-percentage, @tc-percentage) {
+    @base-color: darken(spin(red, @bc-percentage), 5%);
+    background-color: @base-color;
+    border-color: darken(@base-color, 5%);
+    color: darken(white, @tc-percentage);
+}
+
+.ssllabgrade {
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 3px;
+    font-weight: bold;
+    padding: 0px 5px;
+    color: #444;
+
+    &.big {
+        border-width: 3px;
+        font-size: 30px;
+        padding: 0px 10px;
+        margin-right: 10px;
+    }
+
+    &.a { .gradecolor(140%, 90%); }
+    &.b { .gradecolor(90%, 80%); }
+    &.c { .gradecolor(70%, 80%); }
+    &.d { .gradecolor(45%, 0%); }
+    &.e { .gradecolor(30%, 0%); }
+    &.f { .gradecolor(15%, 0%); }
+    &.t { .gradecolor(0%, 0%); }
+}
+
+.datatable {
+    tr:first-child {
+        td {
+            border-top: none;
+        }
+    }
+}

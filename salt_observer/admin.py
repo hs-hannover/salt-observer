@@ -31,6 +31,8 @@ admin.site.register(Network, NetworkAdmin)
 
 
 class DomainAdmin(admin.ModelAdmin):
-    list_display = ('fqdn', 'minion_count', 'public', 'can_speak_https')
+    list_display = ('fqdn', 'minion_count', 'valid', 'public', 'can_speak_https')
     filter_horizontal = ('minion',)
+    readonly_fields = ('ssl_lab_status',)
+    exclude = ('_ssl_lab_status',)
 admin.site.register(Domain, DomainAdmin)

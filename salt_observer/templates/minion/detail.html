@@ -56,7 +56,7 @@
                             <i>Hier soll man in Zukunft eigenes Markdown hinterlegen können ...</i>
                         </div>
                         <div class="col-md-4">
-                            <table class="table">
+                            <table class="table datatable">
                                 <tbody>
                                     <tr>
                                         <td>Operating system</td>
@@ -104,39 +104,56 @@
 
                 <!-- domains -->
                 <div role="tabpanel" class="tab-pane fade" id="domains">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Domain name (fqdn)</th>
-                                <th>Applied minions</th>
-                                <th>Public</th>
-                                <th>HTTPS</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for domain in minion.domain_set.all %}
+                    {% if minion.domain_set.all %}
+                        <table class="table table-hover sortable">
+                            <thead>
                                 <tr>
-                                    <td>{{ domain.fqdn }}</td>
-                                    <td>{{ domain.minion_count }}</td>
-                                    <td>
-                                        {% if domain.public %}
-                                            <span class="text-success"><i class="fa fa-fw fa-check"></i> Yes</span>
-                                        {% else %}
-                                            <span class="text-danger"><i class="fa fa-fw fa-times"></i> No</span>
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        {% if domain.can_speak_https %}
-                                            <span class="text-success"><i class="fa fa-fw fa-check"></i> Yes</span>
-                                        {% else %}
-                                            <span class="text-danger"><i class="fa fa-fw fa-times"></i> No</span>
-                                        {% endif %}
-                                    </td>
+                                    <th>Domain name (fqdn)</th>
+                                    <th>Applied minions</th>
+                                    <th>Valid</th>
+                                    <th>Public</th>
+                                    <th>HTTPS</th>
+                                    <th>SSL Lab grades</th>
                                 </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    <i>Hier sollen in Zukunft mehr Informationen wie bspw. SSL Cert checks usw. angezeigt werden ...</i>
+                            </thead>
+                            <tbody>
+                                {% for domain in minion.domain_set.all %}
+                                    <tr>
+                                        <td><a href="{% url 'domain-detail' domain.fqdn %}">{{ domain.fqdn }}</a></td>
+                                        <td>{{ domain.minion_count }}</td>
+                                        <td>
+                                            {% if domain.valid %}
+                                                <span class="text-success"><i class="fa fa-fw fa-check"></i> Yes</span>
+                                            {% else %}
+                                                <span class="text-danger"><i class="fa fa-fw fa-times"></i> No</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if domain.public %}
+                                                <span class="text-success"><i class="fa fa-fw fa-check"></i> Yes</span>
+                                            {% else %}
+                                                <span class="text-danger"><i class="fa fa-fw fa-times"></i> No</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if domain.can_speak_https %}
+                                                <span class="text-success"><i class="fa fa-fw fa-check"></i> Yes</span>
+                                            {% else %}
+                                                <span class="text-danger"><i class="fa fa-fw fa-times"></i> No</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% for grade in domain.ssl_lab_status.grades %}
+                                                <span class="ssllabgrade {{ grade|first|lower }}">{{ grade }}</span>
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p><i>No domains applied to this minion.</i></p>
+                    {% endif %}
                 </div>
 
                 <!-- networks -->

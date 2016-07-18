@@ -6,7 +6,7 @@ from .views import (
     Dashboard,
     MinionList, MinionDetail,
     NetworkList, NetworkDetail,
-    DomainList
+    DomainList, DomainDetail
 )
 
 
@@ -26,4 +26,5 @@ urlpatterns = [
     url(r'^networks/(?P<slug>[a-zA-Z0-9\.\-]+)/$', NetworkDetail.as_view(), name='network-detail'),
 
     url(r'^domains/$', DomainList.as_view(), name='domain-list'),
+    url(r'^domains/(?P<slug>[a-zA-Z0-9\.\-]+)/$', DomainDetail.as_view(), name='domain-detail'),
 ]

@@ -43,3 +43,9 @@ class NetworkDetail(DetailView):
 class DomainList(ListView):
     template_name = 'domain/list.html'
     model = Domain
+
+
+class DomainDetail(DetailView):
+    template_name = 'domain/detail.html'
+    model = Domain
+    slug_field = 'fqdn'

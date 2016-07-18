@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block nav-domains %}class="active"{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>{{ domain.fqdn }}</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">General</a></li>
+                <li role="presentation"><a href="#minions" aria-controls="minions" role="tab" data-toggle="tab">Applied minions</a></li>
+                <li role="presentation"><a href="#ssllabs" aria-controls="ssllabs" role="tab" data-toggle="tab">SSL Lab status</a></li>
+            </ul>
+
+            <!-- tab panes -->
+            <div class="tab-content">
+
+                <!-- general -->
+                <div role="tabpanel" class="tab-pane fade in active" id="general">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <i>Hier soll man in Zukunft eigenes Markdown hinterlegen können ...</i>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table datatable">
+                                <tbody>
+                                    <tr>
+                                        <td>Valid</td>
+                                        <td>
+                                            {% if domain.valid %}
+                                                <span class="text-success"><i class="fa fa-fw fa-check"></i> Yes</span>
+                                            {% else %}
+                                                <span class="text-danger"><i class="fa fa-fw fa-times"></i> No</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Public</td>
+                                        <td>
+                                            {% if domain.public %}
+                                                <span class="text-success"><i class="fa fa-fw fa-check"></i> Yes</span>
+                                            {% else %}
+                                                <span class="text-danger"><i class="fa fa-fw fa-times"></i> No</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>HTTPS</td>
+                                        <td>
+                                            {% if domain.can_speak_https %}
+                                                <span class="text-success"><i class="fa fa-fw fa-check"></i> Yes</span>
+                                            {% else %}
+                                                <span class="text-danger"><i class="fa fa-fw fa-times"></i> No</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- connected minions -->
+                <div role="tabpanel" class="tab-pane fade" id="minions">
+                    {% if domain.minion.all %}
+                        <table class="table table-hover sortable">
+                            <thead>
+                                <th>Minion</th>
+                                <th>Applied domains</th>
+                            </thead>
+                            <tbody>
+                                {% for minion in domain.minion.all %}
+                                    <tr>
+                                        <td><a href="{% url 'minion-detail' minion.fqdn %}">{{ minion.fqdn }}</a></td>
+                                        <td>{{ minion.domain_set.all|length }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p><i>No minions applied to this domain.</i></p>
+                    {% endif %}
+                    <table>
+
+                    </table>
+                </div>
+
+                <!-- ssl lab status -->
+                <div role="tabpanel" class="tab-pane fade" id="ssllabs">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h2>Grades</h2>
+                            <div>
+                                {% for grade in domain.ssl_lab_status.grades %}
+                                    <span class="ssllabgrade big {{ grade|first|lower }}">{{ grade }}</span>
+                                {% empty %}
+                                    <p><i>This domain couldn't be checked.</i></p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h2>Messages</h2>
+                            {% if domain.ssl_lab_status.messages %}
+                                <ul>
+                                    {% for message in domain.ssl_lab_status.messages %}
+                                        <li>{{ message }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <p><i>No messages for this Domain.</i></p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- tab panes end -->
+
+        </div>
+    </div>
+{% endblock %}
