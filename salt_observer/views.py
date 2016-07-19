@@ -2,16 +2,46 @@ from django.template import Context, Template
 from django.views.generic import View, TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import FormView
+from django.core.urlresolvers import reverse_lazy
 from django.utils.safestring import mark_safe
+from django.contrib.auth import login, logout
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 
 from markdown import Markdown
 
+from salt_observer.forms import LoginForm
 from salt_observer.models import (
     Minion, Network, Domain
 )
+
+
+class Login(FormView):
+    template_name = 'auth/login.html'
+    form_class = LoginForm
+    success_url = '/'
+
+    def form_valid(self, form, *args, **kwargs):
+        login(self.request, form.get_user())
+        return super().form_valid(form, *args, **kwargs)
+
+    def get_success_url(self):
+        return self.request.GET.get('next', reverse_lazy('dashboard'))
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated():
+            return HttpResponseRedirect(reverse_lazy('dashboard'))
+        else:
+            return super().dispatch(request, *args, **kwargs)
+
+
+class Logout(View):
+
+    def dispatch(self, request, *args, **kwargs):
+        logout(request)
+        return HttpResponseRedirect(reverse_lazy('dashboard'))
 
 
 class Dashboard(TemplateView):

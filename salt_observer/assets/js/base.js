@@ -1,5 +1,5 @@
 $(function() {
-    $('.title-wrapper').click(function() {
+    $('#logo').click(function() {
         window.location = $(this).data('root');
     });
 

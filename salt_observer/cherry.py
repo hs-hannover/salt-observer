@@ -10,8 +10,9 @@ class SaltCherrypyApi(object):
         ''' Log in every time an instance is created '''
         self.token = self.obtain_auth_token(username, password)
 
-    def obtain_auth_token(self, username, password):
-        res = requests.post(self.BASE_URL+'/login', headers={'Accept': 'application/json'}, data={
+    @classmethod
+    def obtain_auth_token(cls, username, password):
+        res = requests.post(cls.BASE_URL+'/login', headers={'Accept': 'application/json'}, data={
             'username': username,
             'password': password,
             'eauth': 'pam'

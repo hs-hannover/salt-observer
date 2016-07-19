@@ -21,18 +21,40 @@
 
     .title-wrapper {
         margin: -20px -20px 20px -20px;
-        padding: 20px;
-        background-color: @brand-primary;
-        color: white;
         cursor: pointer;
+        .title:hover {
+            text-decoration: none;
+        }
+    }
 
-        .title {
-            font-size: 23px;
-            font-weight: bold;
-            color: white;
+    .profile-bar {
+        color: #ddd;
+        background-color: darken(#313232, 8%);
+        overflow: auto;
+        margin: -20px -20px 20px -20px;
+        padding: 15px;
 
-            &:hover {
-                text-decoration: none;
+        img {
+            border-radius: 50%;
+            float: left;
+            width: 20%;
+        }
+
+        .info {
+            float: right;
+            width: 80%;
+            padding-left: 20px;
+
+            span {
+                display: block;
+            }
+
+            .name {
+                font-size: 25px;
+            }
+
+            .logout {
+
             }
         }
     }

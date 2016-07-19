@@ -27,6 +27,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'crispy_forms',
+
     'salt_observer'
 ]
 
@@ -60,6 +62,11 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'salt_observer.wsgi.application'
+
+
+AUTHENTICATION_BACKENDS = [
+    'salt_observer.backends.RestBackend'
+]
 
 
 # Password validation
@@ -101,6 +108,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = 'static/'
 
+LOGIN_URL = '/login/'
+LOGOUT_URL = '/logout/'
+LOGIN_REDIRECT_URL = '/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # import private settings
 from salt_observer.private_settings import *

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block body %}
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-sm-3 col-md-2 sidebar">
+                <div id="logo" class="title-wrapper" data-root="/">
+                    <a href="/" class="title"><i class="fa fa-heartbeat"></i> salt-observer</a>
+                </div>
+
+                {% block sidebar %}
+                    <div class="profile-bar">
+                        <img src="{% static 'img/blank_user.gif' %}"/>
+                        <div class="info">
+                            <span class="name">{{ request.user.username }}</span>
+                            <span class="logout"><a href="{% url 'logout' %}">Log out <i class="fa fa-sign-out"></i></a></span>
+                        </div>
+                    </div>
+
+                    <ul class="nav nav-sidebar">
+                        <li {% block nav-dashboard %}{% endblock %}><a href="{% url 'dashboard' %}"><i class="fa fa-fw fa-2x fa-bullhorn"></i> Dashboard</a></li>
+                        <li {% block nav-domains %}{% endblock %}><a href="{% url 'domain-list' %}"><i class="fa fa-fw fa-2x fa-link"></i> Domains</a></li>
+                        <li {% block nav-minions %}{% endblock %}><a href="{% url 'minion-list' %}"><i class="fa fa-fw fa-2x fa-server"></i> Minions</a></li>
+                        <li {% block nav-networks %}{% endblock %}><a href="{% url 'network-list' %}"><i class="fa fa-fw fa-2x fa-plug"></i> Networks</a></li>
+                        <li {% block nav-commands %}{% endblock %}><a href="#"><i class="fa fa-fw fa-2x fa-terminal"></i> Commands</a></li>
+                    </ul>
+                {% endblock %}
+            </div>
+
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        {% block content %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
