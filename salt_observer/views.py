@@ -25,12 +25,15 @@ from salt_observer.models import (
 class MarkdownEditMixin(object):
 
     def form_valid(self, form, *args, **kwargs):
+        result = super().form_valid(form, *args, **kwargs)
         obj = self.get_object()
+
         obj.md_content = form.cleaned_data.get('md_content', '')
         obj.md_last_autor = self.request.user
         obj.md_last_edited = timezone.now()
         obj.save()
-        return super().form_valid(form, *args, **kwargs)
+
+        return result
 
     def get_success_url(self, *args, **kwargs):
         return reverse_lazy(self.success_url_name, args=[self.kwargs.get('slug', '')])
