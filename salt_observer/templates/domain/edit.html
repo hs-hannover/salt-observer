@@ -1,0 +1,8 @@
+{% extends 'domain/detail.html' %}
+{% load crispy_forms_tags %}
+
+{% block nav-domains %}class="active"{% endblock %}
+
+{% block general-tab %}
+    {% crispy form %}
+{% endblock %}

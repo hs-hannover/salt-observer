@@ -1,0 +1,8 @@
+{% extends 'network/detail.html' %}
+{% load crispy_forms_tags %}
+
+{% block nav-networks %}class="active"{% endblock %}
+
+{% block general-tab %}
+    {% crispy form %}
+{% endblock %}

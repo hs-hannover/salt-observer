@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 import json
 import requests
@@ -8,6 +9,8 @@ class MarkdownContent(models.Model):
     ''' To enable on-the-fly modification of templates '''
 
     md_content = models.TextField(blank=True)
+    md_last_edited = models.DateTimeField()
+    md_last_autor = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
 
     class Meta:
         abstract = True

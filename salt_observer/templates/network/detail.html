@@ -1,4 +1,5 @@
 {% extends 'navbar.html' %}
+{% load so_extras %}
 
 {% block nav-networks %}class="active"{% endblock %}
 
@@ -22,7 +23,23 @@
                 <div role="tabpanel" class="tab-pane fade in active" id="general">
                     <div class="row">
                         <div class="col-md-8">
-                            <i>Hier soll man in Zukunft eigenes Markdown hinterlegen können ...</i>
+                            {% block general-tab %}
+
+                                <a class="text-muted pull-right" href="{% url 'network-edit' network.ipv4 %}"><i class="fa fa-2x fa-pencil"></i></a>
+
+                                {% if network.md_content %}
+                                    <div>
+                                        {{ network.md_content|markdownify }}
+                                    </div>
+                                    <hr>
+                                    <div class="footnote">
+                                        <i class="text-muted">Last edited {{ network.md_last_edited|date:"d.m.y - H:i" }} from {{ network.md_last_autor.username }}</i>
+                                    </div>
+                                {% else %}
+                                    <i class="text-muted">No special information about this network yet. But you can <a href="{% url 'network-edit' network.ipv4 %}">edit</a> this section!</i>
+                                {% endif %}
+
+                            {% endblock %}
                         </div>
                         <div class="col-md-4">
                             <table class="table datatable">
@@ -70,9 +87,4 @@
             </div>
         </div>
     </div>
-
-    <hr/>
-    <p class="footnote text-muted">
-        <i>Daten aktuell vom {{ network.last_updated|date:"d.m.y - H:i" }} Uhr</i>
-    </p>
 {% endblock %}

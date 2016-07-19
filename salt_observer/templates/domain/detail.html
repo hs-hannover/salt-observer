@@ -1,4 +1,5 @@
 {% extends 'navbar.html' %}
+{% load so_extras %}
 
 {% block nav-domains %}class="active"{% endblock %}
 
@@ -23,7 +24,23 @@
                 <div role="tabpanel" class="tab-pane fade in active" id="general">
                     <div class="row">
                         <div class="col-md-8">
-                            <i>Hier soll man in Zukunft eigenes Markdown hinterlegen können ...</i>
+                            {% block general-tab %}
+
+                                <a class="text-muted pull-right" href="{% url 'domain-edit' domain.fqdn %}"><i class="fa fa-2x fa-pencil"></i></a>
+
+                                {% if domain.md_content %}
+                                    <div>
+                                        {{ domain.md_content|markdownify }}
+                                    </div>
+                                    <hr>
+                                    <div class="footnote">
+                                        <i class="text-muted">Last edited {{ domain.md_last_edited|date:"d.m.y - H:i" }} from {{ domain.md_last_autor.username }}</i>
+                                    </div>
+                                {% else %}
+                                    <i class="text-muted">No special information about this domain yet. But you can <a href="{% url 'domain-edit' domain.fqdn %}">edit</a> this section!</i>
+                                {% endif %}
+
+                            {% endblock %}
                         </div>
                         <div class="col-md-4">
                             <table class="table datatable">

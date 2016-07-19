@@ -5,9 +5,9 @@ from django.contrib.auth.decorators import login_required
 from .views import (
     Login, Logout,
     Dashboard,
-    MinionList, MinionDetail,
-    NetworkList, NetworkDetail,
-    DomainList, DomainDetail
+    MinionList, MinionDetail, MinionEdit,
+    NetworkList, NetworkDetail, NetworkEdit,
+    DomainList, DomainDetail, DomainEdit
 )
 
 
@@ -25,10 +25,13 @@ urlpatterns = [
     auth_url(r'^$', Dashboard.as_view(), name='dashboard'),
     auth_url(r'^minions/$', MinionList.as_view(), name='minion-list'),
     auth_url(r'^minions/(?P<slug>[a-zA-Z0-9\.\-]+)/$', MinionDetail.as_view(), name='minion-detail'),
+    auth_url(r'^minions/(?P<slug>[a-zA-Z0-9\.\-]+)/edit/$', MinionEdit.as_view(), name='minion-edit'),
 
     auth_url(r'^networks/$', NetworkList.as_view(), name='network-list'),
     auth_url(r'^networks/(?P<slug>[a-zA-Z0-9\.\-]+)/$', NetworkDetail.as_view(), name='network-detail'),
+    auth_url(r'^networks/(?P<slug>[a-zA-Z0-9\.\-]+)/edit/$', NetworkEdit.as_view(), name='network-edit'),
 
     auth_url(r'^domains/$', DomainList.as_view(), name='domain-list'),
     auth_url(r'^domains/(?P<slug>[a-zA-Z0-9\.\-]+)/$', DomainDetail.as_view(), name='domain-detail'),
+    auth_url(r'^domains/(?P<slug>[a-zA-Z0-9\.\-]+)/edit/$', DomainEdit.as_view(), name='domain-edit'),
 ]

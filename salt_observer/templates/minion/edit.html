@@ -1,0 +1,8 @@
+{% extends 'minion/detail.html' %}
+{% load crispy_forms_tags %}
+
+{% block nav-minions %}class="active"{% endblock %}
+
+{% block general-tab %}
+    {% crispy form %}
+{% endblock %}
