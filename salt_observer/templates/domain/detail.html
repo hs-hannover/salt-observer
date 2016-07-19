@@ -96,10 +96,13 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">
-                                        Grades <span class="pull-right">
-                                            <a href="https://www.ssllabs.com/ssltest/analyze.html?d={{ domain.fqdn }}" target="_blank">
-                                                <i class="fa fa-external-link"></i> View on ssllabs.com
-                                            </a>
+                                        Grades
+                                        <span class="pull-right">
+                                            {% if domain.ssl_lab_status.grades %}
+                                                <a href="https://www.ssllabs.com/ssltest/analyze.html?d={{ domain.fqdn }}" target="_blank">
+                                                    <i class="fa fa-external-link"></i> View on ssllabs.com
+                                                </a>
+                                            {% endif %}
                                         </span>
                                     </h3>
                                 </div>
