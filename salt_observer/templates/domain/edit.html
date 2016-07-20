@@ -2,6 +2,7 @@
 {% load crispy_forms_tags %}
 
 {% block nav-domains %}class="active"{% endblock %}
+{% block title-extra %}Edit | {{ domain.fqdn }}{% endblock %}
 
 {% block general-tab %}
     {% crispy form %}

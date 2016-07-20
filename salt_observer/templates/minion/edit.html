@@ -2,6 +2,7 @@
 {% load crispy_forms_tags %}
 
 {% block nav-minions %}class="active"{% endblock %}
+{% block title-extra %}Edit | {{ minion.fqdn }}{% endblock %}
 
 {% block general-tab %}
     {% crispy form %}

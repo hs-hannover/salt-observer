@@ -2,6 +2,7 @@
 {% load so_extras %}
 
 {% block nav-minions %}class="active"{% endblock %}
+{% block title-extra %}{{ minion.fqdn }}{% endblock %}
 
 {% block post-script %}
     <script>

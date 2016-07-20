@@ -2,6 +2,7 @@
 {% load so_extras %}
 
 {% block nav-domains %}class="active"{% endblock %}
+{% block title-extra %}{{ domain.fqdn }}{% endblock %}
 
 {% block content %}
     <div class="page-header">
