@@ -23,6 +23,8 @@ gulp.task('default', [
 
 gulp.task('watch', ['default'], function() {
     var less_watcher = gulp.watch(src + 'less/**/*.less', ['compile:less']);
+    var img_watcher = gulp.watch(src + 'img/**/*', ['collect:images']);
+    var js_watcher = gulp.watch(src + 'js/**/*.js', ['build:custom-javascript']);
 });
 
 // Actually the tasks
