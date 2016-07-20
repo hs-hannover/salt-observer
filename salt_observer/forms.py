@@ -64,7 +64,7 @@ class LoginForm(AuthenticationForm):
             PrependedText('password', '<i class="fa fa-unlock-alt fa-fw"></i>', placeholder='Password'),
             Div(
                 Div(
-                    StrictButton('Login', type='submit', css_class='btn-default'),
+                    StrictButton('Login', type='submit', css_class='btn-default btn-block'),
                     css_class='col-lg-12',
                 ),
                 css_class='form-group'
