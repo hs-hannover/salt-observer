@@ -14,11 +14,11 @@ gulp.task('build:custom-javascript', buildCustomJavascript);
 gulp.task('cleanup', cleanup);
 
 gulp.task('default', [
-    'compile:less',
+    'build:contrib-javascript',
+    'build:custom-javascript',
     'collect:images',
     'collect:fonts',
-    'build:contrib-javascript',
-    'build:custom-javascript'
+    'compile:less'
 ]);
 
 gulp.task('watch', ['default'], function() {
@@ -30,10 +30,10 @@ gulp.task('watch', ['default'], function() {
 // Actually the tasks
 
 function compileLess() {
-    return gulp.src(src + 'less/main.less')
+    return gulp.src(src + 'less/_init.less')
         .pipe(plugins.less())
         .pipe(plugins.cssmin())
-        .pipe(plugins.rename({suffix: '.min'}))
+        .pipe(plugins.rename('main.min.css'))
         .pipe(gulp.dest(dst + 'css'));
 };
 
@@ -50,7 +50,9 @@ function buildContribJavascript() {
         'jquery/dist/jquery.js',
         'bootstrap/dist/js/bootstrap.js',
         'tablesorter/dist/js/jquery.tablesorter.combined.js',
-        'filtertable/jquery.filtertable.js'
+        'filtertable/jquery.filtertable.js',
+        'jdenticon/dist/jdenticon.js',
+        'vis/dist/vis.js'
     ], {cwd: 'node_modules'})
         .pipe(plugins.uglify())
         .pipe(plugins.concat('main.min.js'))

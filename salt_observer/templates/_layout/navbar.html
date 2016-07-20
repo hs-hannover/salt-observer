@@ -1,5 +1,6 @@
 {% extends '_layout/base.html' %}
 {% load staticfiles %}
+{% load utils %}
 
 {% block body %}
 
@@ -13,7 +14,7 @@
 
                 {% block sidebar %}
                     <div class="profile-bar">
-                        <img src="{% static 'img/blank_user.gif' %}"/>
+                        <canvas width="150" height="150" data-jdenticon-hash="{{ request.user.username|md5 }}"></canvas>
                         <div class="info">
                             <span class="name">{{ request.user.username }}</span>
                             <span class="logout"><a href="{% url 'logout' %}">Log out <i class="fa fa-sign-out"></i></a></span>
