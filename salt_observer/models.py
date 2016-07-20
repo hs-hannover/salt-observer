@@ -128,6 +128,7 @@ class NetworkInterface(models.Model):
     minion = models.ForeignKey(Minion, on_delete=models.CASCADE)
 
     name = models.CharField(max_length=255)
+    ip_address = models.CharField(max_length=17)
     mac_address = models.CharField(max_length=17)
 
     def __str__(self):

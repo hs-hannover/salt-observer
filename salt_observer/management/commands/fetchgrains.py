@@ -42,7 +42,7 @@ class Command(ApiCommand, BaseCommand):
             ipv4_network = str(netaddr.IPNetwork('{}/{}'.format(if_data['ipv4']['address'], if_data['ipv4']['netmask'])).network)
             network = self._update_network(ipv4_network, if_data['ipv4']['netmask'])
             touched['networks'].append(network)
-            interface = self._update_network_interface(network, minion, if_data['mac_address'], if_name)
+            interface = self._update_network_interface(network, minion, if_data['ipv4']['address'], if_data['mac_address'], if_name)
             touched['interfaces'].append(interface)
 
     def _update_network(self, ipv4, mask):
@@ -55,11 +55,12 @@ class Command(ApiCommand, BaseCommand):
         network.save()
         return network
 
-    def _update_network_interface(self, network, minion, mac_address, if_name):
+    def _update_network_interface(self, network, minion, ip_address, mac_address, if_name):
         ''' Update all network interfaces '''
-        ni = NetworkInterface.objects.filter(network=network, minion=minion, mac_address=mac_address).first()
+        ni = NetworkInterface.objects.filter(network=network, minion=minion, ip_address=ip_address, mac_address=mac_address).first()
         if not ni:
-            ni = NetworkInterface(network=network, minion=minion, mac_address=mac_address, name=if_name).save()
+            ni = NetworkInterface(network=network, minion=minion, ip_address=ip_address, mac_address=mac_address, name=if_name)
+            ni.save()
         return ni
 
     def _cleanup(self, touched):

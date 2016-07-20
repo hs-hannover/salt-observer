@@ -4,6 +4,14 @@
 {% block nav-networks %}class="active"{% endblock %}
 {% block title-extra %}{{ network.ipv4 }}{% endblock %}
 
+{% block post-script %}
+    <script type="text/javascript">
+        $('#miniontable').filterTable({
+            inputSelector: '#miniontable-search',
+        });
+    </script>
+{% endblock %}
+
 {% block content %}
     <div class="page-header">
         <h1>{{ network.ipv4 }}</h1>
@@ -61,10 +69,19 @@
 
                 <!-- minions -->
                 <div role="tabpanel" class="tab-pane fade" id="minions">
-                    <table class="table sortable">
+                    <div class="row margin-bottom-wrapper">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-search fa-fw"></i></span>
+                                <input id="miniontable-search" class="form-control" placeholder="Suchen nach ..." type="search">
+                            </div>
+                        </div>
+                    </div>
+                    <table id="miniontable" class="table sortable">
                         <thead>
                             <tr>
                                 <th>Minion Fqdn</th>
+                                <th>Minion IP</th>
                                 <th>Network interfaces</th>
                                 <th>MAC address</th>
                             </tr>
@@ -75,6 +92,7 @@
                                     <td><a href="{% url 'minion-detail' minion.fqdn %}">{{ minion.fqdn }}</a></td>
                                     {% for ni in minion.networkinterface_set.all %}
                                         {% if ni.network.ipv4 == network.ipv4 %}
+                                            <td>{{ ni.ip_address }}</td>
                                             <td>{{ ni.name }}</td>
                                             <td>{{ ni.mac_address }}</td>
                                         {% endif %}
