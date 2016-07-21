@@ -66,7 +66,19 @@ class Logout(View):
 
 
 class Dashboard(TemplateView):
-    template_name = 'dashboard.html'
+    template_name = 'home/dashboard.html'
+
+
+class VisualNetwork(TemplateView):
+    template_name = 'home/visual_network.html'
+
+    def get_context_data(self, *args, **kwargs):
+        ctx = super().get_context_data(*args, **kwargs)
+        ctx.update({
+            'minions': Minion.objects.all(),
+            'networks': Network.objects.all().exclude(ipv4='10.1.10.0'),
+        })
+        return ctx
 
 
 class MinionList(ListView):

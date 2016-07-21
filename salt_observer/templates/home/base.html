@@ -1,0 +1,16 @@
+{% extends '_layout/navbar.html' %}
+{% load staticfiles %}
+
+{% block nav-dashboard %}class="active"{% endblock %}
+
+{% block content %}
+    <div class="margin-top-wrapper margin-bottom-wrapper">
+        <ul class="nav nav-tabs">
+            <li role="presentation" {% block nav-db-general %}{% endblock %}><a href="{% url 'dashboard' %}">General</a></li>
+            <li role="presentation" {% block nav-db-visual-network %}{% endblock %}><a href="{% url 'visual-network' %}">Visual network</a></li>
+        </ul>
+    </div>
+
+    {% block home-content %}{% endblock %}
+
+{% endblock %}

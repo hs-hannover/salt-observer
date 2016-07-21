@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 
 from .views import (
     Login, Logout,
-    Dashboard,
+    Dashboard, VisualNetwork,
     MinionList, MinionDetail, MinionEdit,
     NetworkList, NetworkDetail, NetworkEdit,
     DomainList, DomainDetail, DomainEdit
@@ -23,6 +23,8 @@ urlpatterns = [
     url(r'^logout/$', Logout.as_view(), name='logout'),
 
     auth_url(r'^$', Dashboard.as_view(), name='dashboard'),
+    auth_url(r'^visual-network/$', VisualNetwork.as_view(), name='visual-network'),
+
     auth_url(r'^minions/$', MinionList.as_view(), name='minion-list'),
     auth_url(r'^minions/(?P<slug>[a-zA-Z0-9\.\-]+)/$', MinionDetail.as_view(), name='minion-detail'),
     auth_url(r'^minions/(?P<slug>[a-zA-Z0-9\.\-]+)/edit/$', MinionEdit.as_view(), name='minion-edit'),

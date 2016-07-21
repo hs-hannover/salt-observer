@@ -1,0 +1,59 @@
+{% extends 'home/base.html' %}
+{% load staticfiles %}
+
+{% block nav-db-visual-network %}class="active"{% endblock %}
+{% block title-extra %}Dashboard{% endblock %}
+
+{% block post-script %}
+    <script type="text/javascript">
+        // create an array with nodes
+        var nodes = new vis.DataSet([
+            {% for m in minions %}
+                {id: 'm{{ m.id }}', oid: {{ m.id }}, label: '{{ m.fqdn }}', group: 'minion'},
+            {% endfor %}
+            {% for n in networks %}
+                {id: 'n{{ n.id }}', oid: {{ n.id }}, label: '{{ n.ipv4 }}', group: 'network'},
+            {% endfor %}
+        ]);
+
+        // create an array with edges
+        var edges = new vis.DataSet([
+            {% for n in networks %}
+                {% for m in n.minion_set.all %}
+                    {from: 'n{{ n.id }}', to: 'm{{ m.id }}'},
+                {% endfor %}
+            {% endfor %}
+        ]);
+
+        var container = document.getElementById('network_view');
+        var data = {
+            nodes: nodes,
+            edges: edges
+        };
+        var options = {
+            physics: {
+                barnesHut: {
+                    centralGravity: 0.4,
+                    springLength: 100,
+                },
+            },
+            groups: {
+                minion: {
+                    shape: 'box',
+                },
+                network: {
+                    shape: 'dot',
+                    size: 20,
+                }
+            }
+        };
+        var network = new vis.Network(container, data, options);
+
+    </script>
+{% endblock %}
+
+{% block post-content %}
+    <div class="row">
+        <div id="network_view"></div>
+    </div>
+{% endblock %}
