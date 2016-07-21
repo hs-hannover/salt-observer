@@ -65,6 +65,11 @@ class Domain(MarkdownContent):
     def minion_count(self):
         return len(self.minion.all())
 
+    def worst_grade(self):
+        if self.ssl_lab_status.get('grades', []):
+            return max([g for g in self.ssl_lab_status.get('grades', [])])
+        return '0'
+
     def save(self, *args, **kwargs):
         if not self.id:
             self.check_if_valid(commit=False)
@@ -116,6 +121,12 @@ class Minion(MarkdownContent):
 
     def outdated_package_count(self):
         return len([p for p, v in self.data.get('packages', {}).items() if v['latest_version']])
+
+    def fullest_partition_percentage(self):
+        try:
+            return max([p.get('percent', 0) for p in self.data.get('mounted_devices', [])])
+        except AttributeError:
+            return 0
 
     def __str__(self):
         return self.fqdn

@@ -68,6 +68,15 @@ class Logout(View):
 class Dashboard(TemplateView):
     template_name = 'home/dashboard.html'
 
+    def get_context_data(self, *args, **kwargs):
+        ctx = super().get_context_data(*args, **kwargs)
+        ctx.update({
+            'w5_outdated_minions': sorted(Minion.objects.all(), key=lambda m: m.outdated_package_count(), reverse=True)[:5],
+            'w5_fullest_minions': sorted(Minion.objects.all(), key=lambda m: m.fullest_partition_percentage(), reverse=True)[:5],
+            'w5_domain_ssl_grades': sorted(Domain.objects.all(), key=lambda d: d.worst_grade(), reverse=True)[:5],
+        })
+        return ctx
+
 
 class VisualNetwork(TemplateView):
     template_name = 'home/visual_network.html'
