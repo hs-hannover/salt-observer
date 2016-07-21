@@ -10,3 +10,6 @@ salt_observer/private_settings.py
 # dev stuff
 node_modules/
 db.sqlite3
+
+# static files
+static/
