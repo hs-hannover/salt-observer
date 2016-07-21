@@ -1,14 +1,16 @@
 import os
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# SECURITY WARNING:
+# keep the secret key used in production secret!
+# by the way, you should change it if you are reading this ;)
 SECRET_KEY = 'l=fg3h+kynh^y77ac7k%4ubsk4wz=z&1ud8uy*m%p(iw8*+xp-'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# SECURITY WARNING:
+# don't run with debug turned on in production!
+DEBUG = False
 
-ALLOWED_HOSTS = []
+# change this!
+ALLOWED_HOSTS = ['localhost']
 
 
 # Database
