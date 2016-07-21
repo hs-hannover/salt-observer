@@ -42,7 +42,7 @@
                 <li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">General</a></li>
                 <li role="presentation"><a href="#domains" aria-controls="domains" role="tab" data-toggle="tab">Domains</a></li>
                 <li role="presentation"><a href="#networks" aria-controls="networks" role="tab" data-toggle="tab">Networks</a></li>
-                <li role="presentation"><a href="#packages" aria-controls="packages" role="tab" data-toggle="tab">Packages</a></li>
+                <li role="presentation"><a {% if minion.outdated_package_count %}class="text-danger"{% endif %} href="#packages" aria-controls="packages" role="tab" data-toggle="tab">Packages</a></li>
                 <li role="presentation"><a href="#users" aria-controls="users" role="tab" data-toggle="tab">Users</a></li>
                 <li role="presentation"><a href="#partitions" aria-controls="partitions" role="tab" data-toggle="tab">Partitions</a></li>
             </ul>
