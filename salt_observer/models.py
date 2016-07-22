@@ -125,7 +125,7 @@ class Minion(MarkdownContent):
     def fullest_partition_percentage(self):
         try:
             return max([p.get('percent', 0) for p in self.data.get('mounted_devices', [])])
-        except AttributeError:
+        except (AttributeError, ValueError):
             return 0
 
     def __str__(self):
