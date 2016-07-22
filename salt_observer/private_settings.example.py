@@ -22,3 +22,14 @@ DATABASES = {
         'NAME': os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'db.sqlite3'),
     }
 }
+
+
+# Salt observer configuration
+SALT_API = {
+    'host': 'localhost',
+    'port': 8989,
+    'protocol': 'http',
+}
+
+# specify your salt network here to disable it in network visualization
+SALT_NETWORK = '123.456.789.0'

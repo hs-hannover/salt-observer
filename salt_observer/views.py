@@ -85,7 +85,7 @@ class VisualNetwork(TemplateView):
         ctx = super().get_context_data(*args, **kwargs)
         ctx.update({
             'minions': Minion.objects.all(),
-            'networks': Network.objects.all().exclude(ipv4='10.1.10.0'),
+            'networks': Network.objects.all().exclude(ipv4=settings.SALT_NETWORK),
         })
         return ctx
 

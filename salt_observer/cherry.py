@@ -1,10 +1,12 @@
+from django.conf import settings
+
 import requests
 from getpass import getpass
 
 
 class SaltCherrypyApi(object):
 
-    BASE_URL = 'http://localhost:8989'
+    BASE_URL = '{protocol}://{host}:{port}'.format(**settings.SALT_API)
 
     def __init__(self, username, password):
         ''' Log in every time an instance is created '''
