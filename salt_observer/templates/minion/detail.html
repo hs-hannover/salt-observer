@@ -53,7 +53,7 @@
                 <!-- general -->
                 <div role="tabpanel" class="tab-pane fade in active" id="general">
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-lg-8">
                             {% block general-tab %}
 
                                 <a class="text-muted pull-right" href="{% url 'minion-edit' minion.fqdn %}"><i class="fa fa-2x fa-pencil"></i></a>
@@ -72,7 +72,9 @@
 
                             {% endblock %}
                         </div>
-                        <div class="col-md-4">
+
+                        <div class="col-lg-4">
+                            <h2>Datasheet</h2>
                             <table class="table datatable">
                                 <tbody>
                                     <tr>
@@ -112,6 +114,56 @@
                                     <tr>
                                         <td>Bios version</td>
                                         <td>{{ minion.data.grains.biosreleasedate }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <h2>SSH Configuration</h2>
+                            <table class="table datatable">
+                                <tbody>
+                                    <tr>
+                                        <td>Port</td>
+                                        <td>{{ minion.data.grains.openssh.port }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Permit root login</td>
+                                        <td>
+                                            {% if minion.data.grains.openssh.permitrootlogin %}
+                                                <span class="text-danger"><i class="fa fa-fw fa-times"></i> Yes</span>
+                                            {% else %}
+                                                <span class="text-success"><i class="fa fa-fw fa-check"></i> No</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Permit empty passwords</td>
+                                        <td>
+                                            {% if minion.data.grains.openssh.permitemptypasswords %}
+                                                <span class="text-danger"><i class="fa fa-fw fa-times"></i> Yes</span>
+                                            {% else %}
+                                                <span class="text-success"><i class="fa fa-fw fa-check"></i> No</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Passwort authentication</td>
+                                        <td>
+                                            {% if minion.data.grains.openssh.passwortauthentication %}
+                                                <span class="text-danger"><i class="fa fa-fw fa-times"></i> Yes</span>
+                                            {% else %}
+                                                <span class="text-success"><i class="fa fa-fw fa-check"></i> No</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Public key authentication</td>
+                                        <td>
+                                            {% if minion.data.grains.openssh.pubkeyauthentication %}
+                                                <span class="text-success"><i class="fa fa-fw fa-check"></i> Yes</span>
+                                            {% else %}
+                                                <span class="text-danger"><i class="fa fa-fw fa-times"></i> No</span>
+                                            {% endif %}
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
