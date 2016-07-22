@@ -8,8 +8,8 @@ import requests
 class MarkdownContent(models.Model):
     ''' To enable on-the-fly modification of templates '''
 
-    md_content = models.TextField(blank=True)
-    md_last_edited = models.DateTimeField()
+    md_content = models.TextField(default='', blank=True)
+    md_last_edited = models.DateTimeField(blank=True, null=True)
     md_last_autor = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
 
     class Meta:
