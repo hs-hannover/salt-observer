@@ -1,0 +1,47 @@
+image: debian:stable
+
+# run this before every stage
+
+before_script:
+    # install environment
+    - apt-get update -q && apt-get install -qq curl python3-pip > /dev/null
+    - pip3 install -r requirements.txt
+
+    # set up project
+    - cp salt_observer/private_settings.example.py salt_observer/private_settings.py
+
+# build stage is the first stage
+
+ build_staticfiles:
+     stage: build
+     script:
+         # Install nodejs
+         - curl -sL https://deb.nodesource.com/setup_4.x | sh > /dev/null 2>&1
+         - apt-get update -q && apt-get install -qq nodejs
+
+         # install & run gulp
+         - npm i gulp-cli --global > /dev/null
+         - npm i > /dev/null
+         - gulp build
+
+         # collect staticfiles
+         - python3 manage.py collectstatic --noinput
+
+     artifacts:
+         paths:
+             - static/
+         name: "staticfiles"
+
+# execute test stage jobs if build stage is completed successful
+
+check_runserver:
+    stage: test
+    script:
+        - python3 manage.py runserver localhost:8000 &
+        - sleep 5
+        - curl -isSf http://localhost:8000/
+
+try_migrations:
+    stage: test
+    script:
+        - python3 manage.py migrate

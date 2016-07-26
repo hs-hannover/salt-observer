@@ -20,6 +20,7 @@ gulp.task('default', [
     'collect:fonts',
     'compile:less'
 ]);
+gulp.task('build', ['default'])
 
 gulp.task('watch', ['default'], function() {
     var less_watcher = gulp.watch(src + 'less/**/*.less', ['compile:less']);

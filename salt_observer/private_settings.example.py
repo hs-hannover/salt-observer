@@ -7,7 +7,7 @@ SECRET_KEY = 'l=fg3h+kynh^y77ac7k%4ubsk4wz=z&1ud8uy*m%p(iw8*+xp-'
 
 # SECURITY WARNING:
 # don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # change this!
 ALLOWED_HOSTS = ['localhost']
