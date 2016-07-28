@@ -1,4 +1,4 @@
-# salt-observer [![build status](https://lab.it.hs-hannover.de/django/salt-observer/badges/master/build.svg)](https://lab.it.hs-hannover.de/django/salt-observer/commits/master)
+# salt-observer [![python version](https://img.shields.io/badge/python-3.x-blue.svg)]() [![build status](https://lab.it.hs-hannover.de/django/salt-observer/badges/master/build.svg)](https://lab.it.hs-hannover.de/django/salt-observer/commits/master)
 
 Web interface to visualize most of the data *your* installed [SaltStack](https://docs.saltstack.com/en/latest/) installation provides.
 
