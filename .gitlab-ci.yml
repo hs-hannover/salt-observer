@@ -12,25 +12,25 @@ before_script:
 
 # build stage is the first stage
 
- build_staticfiles:
-     stage: build
-     script:
-         # Install nodejs
-         - curl -sL https://deb.nodesource.com/setup_4.x | sh > /dev/null 2>&1
-         - apt-get update -q && apt-get install -qq nodejs
+build_staticfiles:
+    stage: build
+    only: [master]
+    script:
+        - curl -sL https://deb.nodesource.com/setup_4.x | sh > /dev/null 2>&1
+        - apt-get update -q && apt-get install -qq nodejs
 
-         # install & run gulp
-         - npm i gulp-cli --global > /dev/null
-         - npm i > /dev/null
-         - gulp build
+        # install & run gulp
+        - npm i gulp-cli --global > /dev/null
+        - npm i > /dev/null
+        - gulp build
 
-         # collect staticfiles
-         - python3 manage.py collectstatic --noinput
+        # collect staticfiles
+        - python3 manage.py collectstatic --noinput
 
-     artifacts:
-         paths:
-             - static/
-         name: "staticfiles"
+    artifacts:
+        paths:
+            - static/
+        name: "staticfiles"
 
 # execute test stage jobs if build stage is completed successful
 
