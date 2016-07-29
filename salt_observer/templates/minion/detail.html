@@ -45,6 +45,7 @@
                 <li role="presentation"><a {% if minion.outdated_package_count %}class="text-danger"{% endif %} href="#packages" aria-controls="packages" role="tab" data-toggle="tab">Packages</a></li>
                 <li role="presentation"><a href="#users" aria-controls="users" role="tab" data-toggle="tab">Users</a></li>
                 <li role="presentation"><a href="#partitions" aria-controls="partitions" role="tab" data-toggle="tab">Partitions</a></li>
+                <li role="presentation"><a href="#netstat" aria-controls="netstat" role="tab" data-toggle="tab">Netstat</a></li>
             </ul>
 
             <!-- tab panes -->
@@ -240,9 +241,9 @@
                             {% for network in minion.networkinterface_set.all %}
                                 <tr>
                                     <td>{{ network.name }}</td>
-                                    <td>{{ network.mac_address }}</td>
-                                    <td>{{ network.network.ipv4 }}</td>
-                                    <td><a href="{% url 'network-detail' network.network.ipv4 %}">{{ network.network.mask }}</a></td>
+                                    <td><samp>{{ network.mac_address }}</samp></td>
+                                    <td><samp>{{ network.network.ipv4 }}</samp></td>
+                                    <td><samp><a href="{% url 'network-detail' network.network.ipv4 %}">{{ network.network.mask }}</a></samp></td>
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -319,8 +320,8 @@
                                 <tr data-uid="{{ user.id }}">
                                     <td>{{ user.id }}</td>
                                     <td>{{ user.name }}</td>
-                                    <td><code>{{ user.home }}</code></td>
-                                    <td><code>{{ user.shell }}</code></td>
+                                    <td><samp>{{ user.home }}</samp></td>
+                                    <td><samp>{{ user.shell }}</samp></td>
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -347,6 +348,32 @@
                                     <td>{{ device.fstype }}</td>
                                     <td>{{ device.total|filesizeformat }}</td>
                                     <td>{{ device.percent }} %</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- netstat -->
+                <div role="tabpanel" class="tab-pane fade" id="netstat">
+                    <table class="table sortable">
+                        <thead>
+                            <tr>
+                                <th>User id</th>
+                                <th>Remote address</th>
+                                <th>Local address</th>
+                                <th>Program</th>
+                                <th>Protocol</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for service in minion.data.listening_services %}
+                                <tr>
+                                    <td>{{ service.user }}</td>
+                                    <td><samp>{{ service|get:"remote-address" }}</samp></td>
+                                    <td><samp>{{ service|get:"local-address" }}</samp></td>
+                                    <td><samp>{{ service.program }}</samp></td>
+                                    <td>{{ service.proto }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
