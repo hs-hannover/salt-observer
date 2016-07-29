@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.template import Context, Template
 from django.views.generic import View, TemplateView
 from django.views.generic.list import ListView
@@ -69,11 +70,19 @@ class Dashboard(TemplateView):
     template_name = 'home/dashboard.html'
 
     def get_context_data(self, *args, **kwargs):
+        all_minions = Minion.objects.all()
+        all_networks = Network.objects.all()
+        all_domains = Domain.objects.all()
+
         ctx = super().get_context_data(*args, **kwargs)
         ctx.update({
-            'w5_outdated_minions': sorted(Minion.objects.all(), key=lambda m: m.outdated_package_count(), reverse=True)[:5],
-            'w5_fullest_minions': sorted(Minion.objects.all(), key=lambda m: m.fullest_partition_percentage(), reverse=True)[:5],
-            'w5_domain_ssl_grades': sorted(Domain.objects.all(), key=lambda d: d.worst_grade(), reverse=True)[:5],
+            'all_minions': all_minions,
+            'all_networks': all_networks,
+            'all_domains': all_domains,
+            'all_users': User.objects.all(),
+            'w5_outdated_minions': sorted(all_minions, key=lambda m: m.outdated_package_count(), reverse=True)[:5],
+            'w5_fullest_minions': sorted(all_minions, key=lambda m: m.fullest_partition_percentage(), reverse=True)[:5],
+            'w5_domain_ssl_grades': sorted(all_domains, key=lambda d: d.worst_grade(), reverse=True)[:5],
         })
         return ctx
 

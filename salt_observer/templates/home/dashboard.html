@@ -6,12 +6,35 @@
 
 {% block home-content %}
     <div class="row">
-        <div class="col-md-6 col-lg-8">
-
+        <div class="col-sm-6 col-md-3">
+            <div class="numeric-info">
+                <span class="number">{{ all_minions|length }}</span>
+                <span class="description">Minions</span>
+            </div>
         </div>
-        <div class="col-md-6 col-lg-4">
+        <div class="col-sm-6 col-md-3">
+            <div class="numeric-info">
+                <span class="number">{{ all_networks|length }}</span>
+                <span class="description">Networks</span>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="numeric-info">
+                <span class="number">{{ all_domains|length }}</span>
+                <span class="description">Domains</span>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="numeric-info">
+                <span class="number">{{ all_users|length }}</span>
+                <span class="description">Users</span>
+            </div>
+        </div>
+    </div>
 
-            <div class="panel panel-danger">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Fullest 5 Minions</h3>
                 </div>
@@ -32,8 +55,9 @@
                     </tbody>
                 </table>
             </div>
-
-            <div class="panel panel-info">
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Worst 5 outdated Minions</h3>
                 </div>
@@ -54,8 +78,9 @@
                     </tbody>
                 </table>
             </div>
-
-            <div class="panel panel-info">
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Worst 5 Certs</h3>
                 </div>
