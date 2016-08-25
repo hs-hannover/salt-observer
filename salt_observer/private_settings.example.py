@@ -26,9 +26,16 @@ DATABASES = {
 
 # Salt observer configuration
 SALT_API = {
-    'host': 'localhost',
-    'port': 8989,
-    'protocol': 'http',
+    'cherrypy': {
+        'host': 'localhost',
+        'port': 8989,
+        'protocol': 'http',
+    },
+    'tornado': {
+        'host': 'localhost',
+        'port': 8002,
+        'protocol': 'http'
+    }
 }
 
 # specify your salt network here to disable it in network visualization

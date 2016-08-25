@@ -12,3 +12,17 @@ Issues and further documentation can be found there.
 ## Development
 
 A complete list of the `Minion.data` json structure can be found [here](https://lab.it.hs-hannover.de/django/salt-observer/wikis/minion-data-structure) in the wiki.
+
+
+```python
+# get output of 'w' command of all 'tgt' minions
+request('token', {'tgt': '*', 'fun': 'cmd.run', 'arg': 'w'})
+
+# get all grains of 'tgt' minions
+request('token', {'tgt': '*', 'fun': 'grains.items'})
+
+# execute some state and apply custom pillars to it
+request('token', {'tgt': '*', 'fun': 'state.sls', 'kwarg': {
+    'mods': 'name_of_state', 'pillar': {'some': 'pillar_data'}
+}})
+```

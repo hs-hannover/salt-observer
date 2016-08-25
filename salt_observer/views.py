@@ -49,6 +49,12 @@ class Login(FormView):
         login(self.request, form.get_user())
         return super().form_valid(form, *args, **kwargs)
 
+    def get_form_kwargs(self, *args, **kwargs):
+        '''dirty hack to pass the current request down to the backends'''
+        kwargs = super().get_form_kwargs(*args, **kwargs)
+        kwargs['request'] = self.request
+        return kwargs
+
     def get_success_url(self):
         return self.request.GET.get('next', reverse_lazy('dashboard'))
 

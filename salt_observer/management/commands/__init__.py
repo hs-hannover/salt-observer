@@ -1,4 +1,4 @@
-from salt_observer.cherry import SaltCherrypyApi
+from salt_observer.saltapis import SaltCherrypy
 
 from getpass import getpass
 
@@ -20,4 +20,4 @@ class ApiCommand(object):
         else:
             password = kwargs.get('password')
 
-        return SaltCherrypyApi(username, password)
+        return SaltCherrypy(username, password)
