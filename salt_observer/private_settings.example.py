@@ -24,6 +24,11 @@ DATABASES = {
 }
 
 
+# Session stuff
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 12 * 60 * 60  # 12H, because that's salts default token lifetime
+SESSION_COOKIE_NAME = "cookie_session_salt_observer"
+
 # Salt observer configuration
 SALT_API = {
     'cherrypy': {
