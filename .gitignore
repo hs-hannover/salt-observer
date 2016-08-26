@@ -11,5 +11,5 @@ salt_observer/private_settings.py
 node_modules/
 db.sqlite3
 
-# static files
-static/
+# gathered static files
+/static/
