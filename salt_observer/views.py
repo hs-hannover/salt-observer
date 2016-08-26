@@ -154,3 +154,7 @@ class DomainEdit(MarkdownEditMixin, UpdateView, DomainDetail):
     template_name = 'domain/edit.html'
     form_class = DomainEditForm
     success_url_name = 'domain-detail'
+
+
+class EventView(TemplateView):
+    template_name = 'events.html'

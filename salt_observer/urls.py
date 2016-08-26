@@ -7,7 +7,8 @@ from .views import (
     Dashboard, VisualNetwork,
     MinionList, MinionDetail, MinionEdit,
     NetworkList, NetworkDetail, NetworkEdit,
-    DomainList, DomainDetail, DomainEdit
+    DomainList, DomainDetail, DomainEdit,
+    EventView
 )
 
 
@@ -36,4 +37,6 @@ urlpatterns = [
     auth_url(r'^domains/$', DomainList.as_view(), name='domain-list'),
     auth_url(r'^domains/(?P<slug>[a-zA-Z0-9\.\-]+)/$', DomainDetail.as_view(), name='domain-detail'),
     auth_url(r'^domains/(?P<slug>[a-zA-Z0-9\.\-]+)/edit/$', DomainEdit.as_view(), name='domain-edit'),
+
+    auth_url(r'^events/$', EventView.as_view(), name='events'),
 ]

@@ -26,7 +26,11 @@
                         <li {% block nav-domains %}{% endblock %}><a href="{% url 'domain-list' %}"><i class="fa fa-fw fa-2x fa-link"></i> Domains</a></li>
                         <li {% block nav-minions %}{% endblock %}><a href="{% url 'minion-list' %}"><i class="fa fa-fw fa-2x fa-server"></i> Minions</a></li>
                         <li {% block nav-networks %}{% endblock %}><a href="{% url 'network-list' %}"><i class="fa fa-fw fa-2x fa-plug"></i> Networks</a></li>
-                        <li {% block nav-commands %}{% endblock %}><a href="#"><i class="fa fa-fw fa-2x fa-terminal"></i> Commands</a></li>
+                    </ul>
+
+                    <ul class="nav nav-sidebar">
+                        <li {% block nav-events %}{% endblock %}><a href="{% url 'events' %}"><i class="fa fa-fw fa-2x fa-star-o"></i> Events</a></li>
+                        <!--<li><a href="#"><i class="fa fa-fw fa-2x fa-rocket"></i> Jobs</a></li>-->
                     </ul>
                 {% endblock %}
             </div>
