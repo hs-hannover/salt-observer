@@ -33,7 +33,7 @@ SESSION_COOKIE_NAME = "cookie_session_salt_observer"
 SALT_API = {
     'cherrypy': {
         'host': 'localhost',
-        'port': 8989,
+        'port': 8001,
         'protocol': 'http',
     },
     'tornado': {

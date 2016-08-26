@@ -2,7 +2,7 @@ $(function() {
 
     // ATTENTION: set the token before importing this script
 
-    var socket = new WebSocket('ws://localhost:8002/all_events/' + token);
+    var socket = new WebSocket('wss://' + host + ':' + port + '/all_events/' + token);
 
     // Get Salt's "real time" event stream.
     socket.onopen = function() {

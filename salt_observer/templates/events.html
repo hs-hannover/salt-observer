@@ -11,6 +11,8 @@
 
 {% block post-script %}
     <script>
+        var host = "{{ tornado_host }}";
+        var port = "{{ tornado_port }}";
         var token = "{{ request.session.salt_tornado_token }}";
     </script>
     <script src="{% static 'js/events.min.js' %}"></script>

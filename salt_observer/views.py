@@ -158,3 +158,11 @@ class DomainEdit(MarkdownEditMixin, UpdateView, DomainDetail):
 
 class EventView(TemplateView):
     template_name = 'events.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context.update({
+            'tornado_host': settings.SALT_API['tornado']['host'],
+            'tornado_port': settings.SALT_API['tornado']['port'],
+        })
+        return context
