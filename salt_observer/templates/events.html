@@ -5,6 +5,10 @@
 {% block nav-events %}class="active"{% endblock %}
 {% block title-extra %}Events{% endblock %}
 
+{% block meta-extra %}
+    <meta http-equiv="Content-Security-Policy" content="connect-src *">
+{% endblock %}
+
 {% block post-script %}
     <script>
         var token = "{{ request.session.salt_tornado_token }}";
