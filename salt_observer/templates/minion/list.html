@@ -33,6 +33,7 @@
             <tr>
                 <th>Minion ID</th>
                 <th>OS Name</th>
+                <th>Salt version</th>
                 <th>Domains</th>
                 <th>Networks</th>
                 <th>Users</th>
@@ -43,7 +44,8 @@
             {% for minion in minion_list %}
                 <tr>
                     <td><a href="{% url 'minion-detail' minion.fqdn %}">{{ minion }}</a></td>
-                    <td><code>{{ minion.data.grains.os }} {{ minion.data.grains.osrelease }} {{ minion.data.grains.oscodename }}</code></td>
+                    <td><samp>{{ minion.data.grains.os }} {{ minion.data.grains.osrelease }} {{ minion.data.grains.oscodename }}</samp></td>
+                    <td><samp>{{ minion.data.grains.saltversion }}</samp></td>
                     <td>{{ minion.domain_set.all|length }}</td>
                     <td>{{ minion.network_count }}</td>
                     <td>{{ minion.user_count }}</td>
