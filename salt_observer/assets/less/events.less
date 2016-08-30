@@ -1,29 +1,42 @@
+.severitycolor(@bg, @txt) {
+    border-color: @bg;
+    span {
+        color: @txt;
+        background-color: @bg; }
+    i {
+        color: @bg;
+    }
+}
+
+.event.severity-debug { .severitycolor(@nice-silver, black); }
+.event.severity-info { .severitycolor(@nice-teal, black); }
+.event.severity-success { .severitycolor(@nice-olive, black); }
+.event.severity-warning { .severitycolor(@nice-orange, black); }
+.event.severity-critical { .severitycolor(@nice-maroon, white); }
+
+
 .event {
     position: relative;
     border-width: 2px;
-    border-radius: 2px;
+    border-radius: 3px;
     border-style: solid;
+    // border-color: #ddd;
 
-    border-color: #ddd;
-
-    padding: 15px;
-
+    padding: 15px 15px 20px 15px;
     margin-bottom: 25px;
+
+    .message, .message > pre {
+        white-space: pre-wrap;
+    }
 
     span.tag {
         position: absolute;
         top: 0px;
         right: 0px;
         padding: 0px 3px;
-        background-color: #ddd;
+        // background-color: #ddd;
         border-bottom-left-radius: 2px;
         font-size: 0.9em;
-    }
-
-    .message {
-        pre {
-            white-space: pre-wrap;
-        }
     }
 
     span.minion-id {
@@ -31,8 +44,18 @@
         bottom: 0px;
         right: 0px;
         padding: 0px 3px;
-        background-color: #ddd;
+        // background-color: #ddd;
         border-top-left-radius: 2px;
+        font-size: 0.9em;
+    }
+
+    span.timestamp {
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        padding: 0px 3px;
+        // background-color: #ddd;
+        border-top-right-radius: 2px;
         font-size: 0.9em;
     }
 

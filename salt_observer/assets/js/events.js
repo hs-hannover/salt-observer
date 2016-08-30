@@ -12,32 +12,58 @@ $(function() {
     };
 
     // Other handlers
-    socket.onerror = function(e) {
-        console.debug('Error!', e);
+    socket.onerror = function(event) {
+        console.debug('Error!', event);
         $('#conn_status').html('<i class="fa fa-fw fa-times"></i> Connection failed!');
     };
 
-    // e.data represents Salt's "real time" event data as serialized JSON.
-    socket.onmessage = function(e) {
-        console.log(e);
-        //var data = $.parseJSON(e.data.substring(6));
-        var data = JSON.parse(e.data.substring(6));
+    // event.data represents Salt's "real time" event data as serialized JSON.
+    socket.onmessage = function(event) {
+        var event = processEvent(event);
 
-        if (data.tag.startsWith('salt/job/')) {
-            addJob(data);
+        if (event.tag.startsWith('salt/job/')) {
+            addJob(event);
         } else {
-            addEvent(data);
-        };
+            addEvent(event);
+        }
+    };
+
+    var severity_level = {
+        0: {name: 'debug', icon: 'bug'},
+        10: {name: 'info', icon: 'info'},
+        20: {name: 'success', icon: 'check'},
+        30: {name: 'warning', icon: 'exclamation-triangle'},
+        40: {name: 'critical', icon: 'times'},
+    };
+
+    function processEvent(raw_event) {
+        var event = JSON.parse(raw_event.data.substring(6));
+
+        if ("data" in event.data) {
+            // an event that was fired via engine
+            event.title = event.data.data.title;
+            event.message = event.data.data.message.substring(0,300) + '[...]';
+            event.severity = severity_level[event.data.data.severity];
+        } else {
+            // an event that is fired by salt internals
+            event.title = event.data.id;
+            event.message = '<pre>' + JSON.stringify(event) + '</pre>';
+            event.severity = severity_level[0];
+        }
+
+        return event;
     };
 
     function addEvent(event) {
         var tpl = $('#event-template').clone();
         tpl.removeAttr('id');
-        tpl.find('.icon').html('<i class="fa fa-fw fa-2x fa-bug"></i>')
-        tpl.find('.title').text(event.data.id);
-        tpl.find('.message').html('<pre>' + JSON.stringify(event.data) + '</pre>');
+        tpl.addClass('severity-' + event.severity.name);
+        tpl.find('.icon').html('<i class="fa fa-fw fa-2x fa-' + event.severity.icon + '"></i>')
+        tpl.find('.title').text(event.title);
+        tpl.find('.message').html(event.message);
         tpl.find('.tag').text(event.tag);
         tpl.find('.minion-id').text(event.data.id);
+        tpl.find('.timestamp').text(Date(event.data._stamp))
         $('#eventholder').prepend(tpl);
 
         setTimeout(function() {
