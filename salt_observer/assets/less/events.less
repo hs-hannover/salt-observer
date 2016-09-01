@@ -8,55 +8,50 @@
     }
 }
 
-.event.severity-debug { .severitycolor(@nice-silver, black); }
-.event.severity-info { .severitycolor(@nice-teal, black); }
-.event.severity-success { .severitycolor(@nice-olive, black); }
-.event.severity-warning { .severitycolor(@nice-orange, black); }
+.event.severity-debug    { .severitycolor(@nice-silver, black); }
+.event.severity-info     { .severitycolor(@nice-teal, black); }
+.event.severity-success  { .severitycolor(@nice-olive, black); }
+.event.severity-warning  { .severitycolor(@nice-orange, black); }
 .event.severity-critical { .severitycolor(@nice-maroon, white); }
-
 
 .event {
     position: relative;
     border-width: 2px;
     border-radius: 3px;
     border-style: solid;
-    // border-color: #ddd;
 
-    padding: 15px 15px 20px 15px;
+    padding: 15px 15px 25px 15px;
     margin-bottom: 25px;
 
     .message, .message > pre {
         white-space: pre-wrap;
     }
 
-    span.tag {
+    .corner-tag() {
         position: absolute;
+        padding: 0px 3px;
+        font-size: 0.9em;
+    }
+
+    span.tag {
+        .corner-tag();
+        border-bottom-left-radius: 2px;
         top: 0px;
         right: 0px;
-        padding: 0px 3px;
-        // background-color: #ddd;
-        border-bottom-left-radius: 2px;
-        font-size: 0.9em;
     }
 
     span.minion-id {
-        position: absolute;
+        .corner-tag();
+        border-top-left-radius: 2px;
         bottom: 0px;
         right: 0px;
-        padding: 0px 3px;
-        // background-color: #ddd;
-        border-top-left-radius: 2px;
-        font-size: 0.9em;
     }
 
     span.timestamp {
-        position: absolute;
+        .corner-tag();
+        border-top-right-radius: 2px;
         bottom: 0px;
         left: 0px;
-        padding: 0px 3px;
-        // background-color: #ddd;
-        border-top-right-radius: 2px;
-        font-size: 0.9em;
     }
 
     p.title {
