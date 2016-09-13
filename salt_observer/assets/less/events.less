@@ -1,9 +1,9 @@
 .severitycolor(@bg, @txt) {
     border-color: @bg;
-    span {
+    span.meta {
         color: @txt;
         background-color: @bg; }
-    i {
+    i.event-icon {
         color: @bg;
     }
 }
@@ -54,9 +54,17 @@
         left: 0px;
     }
 
-    p.title {
+    p.collapse-link {
         font-weight: bold;
         font-size: 1.3em;
+
+        a,
+        a:hover,
+        a:active {
+            text-decoration: none;
+            color: @text-color;
+            outline: 0;
+        }
     }
 }
 

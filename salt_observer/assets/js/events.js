@@ -58,12 +58,21 @@ $(function() {
         var tpl = $('#event-template').clone();
         tpl.removeAttr('id');
         tpl.addClass('severity-' + event.severity.name);
-        tpl.find('.icon').html('<i class="fa fa-fw fa-2x fa-' + event.severity.icon + '"></i>')
+        tpl.find('.icon').html('<i class="event-icon fa fa-fw fa-2x fa-' + event.severity.icon + '"></i>')
         tpl.find('.title').text(event.title);
-        tpl.find('.message').html(event.message);
+
+        var messagebox_id = event.data._stamp.replace(/(\.|\:|\-)+/g, '');
+
+        tpl.find('.collapse-link a').attr('href', '#' + messagebox_id);
+        tpl.find('.message')
+            .html(event.message)
+            .attr('id', messagebox_id)
+            .on('show.bs.collapse', function() {$(this).parent().find('.collapse-link i').removeClass('fa-chevron-right').addClass('fa-chevron-down');})
+            .on('hide.bs.collapse', function() {$(this).parent().find('.collapse-link i').removeClass('fa-chevron-down').addClass('fa-chevron-right');});
+
         tpl.find('.tag').text(event.tag);
         tpl.find('.minion-id').text(event.data.id);
-        tpl.find('.timestamp').text(Date(event.data._stamp))
+        tpl.find('.timestamp').text(Date(event.data._stamp));
         $('#eventholder').prepend(tpl);
 
         setTimeout(function() {
