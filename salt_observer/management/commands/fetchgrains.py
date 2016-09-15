@@ -35,8 +35,12 @@ class Command(ApiCommand, BaseCommand):
 
     def _update_connections(self, interfaces, minion, touched):
         ''' Update networks and network interfaces '''
+
         for if_name, if_data in interfaces.items():
             if if_name in ['lo', 'lo0']:
+                continue
+
+            if not all([if_data['ipv4']['address'], if_data['ipv4']['netmask'], if_data['mac_address']]):
                 continue
 
             ipv4_network = str(netaddr.IPNetwork('{}/{}'.format(if_data['ipv4']['address'], if_data['ipv4']['netmask'])).network)
