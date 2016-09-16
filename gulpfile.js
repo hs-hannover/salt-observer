@@ -62,7 +62,7 @@ function buildContribJavascript() {
 
 function buildCustomJavascript() {
     return gulp.src(src + 'js/**/*')
-        .pipe(plugins.uglify())
+        .pipe(plugins.uglify().on('error', handleError))
         .pipe(plugins.rename({suffix: '.min'}))
         .pipe(gulp.dest(dst + 'js'))
 };
@@ -70,3 +70,8 @@ function buildCustomJavascript() {
 function cleanup() {
     gulp.src(dst, {read: false}).pipe(plugins.clean())
 };
+
+function handleError(err) {
+    console.log('[\033[31mCritical\033[0m] Line '+err.lineNumber+' in '+err.message);
+    this.emit('end');
+}
