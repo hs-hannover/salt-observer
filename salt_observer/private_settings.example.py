@@ -30,16 +30,24 @@ SESSION_COOKIE_AGE = 12 * 60 * 60  # 12H, because that's salts default token lif
 SESSION_COOKIE_NAME = "cookie_session_salt_observer"
 
 # Salt observer configuration
-SALT_API = {
-    'cherrypy': {
-        'host': 'localhost',
-        'port': 8001,
-        'protocol': 'http',
+SALT = {
+    'api': {
+        'cherrypy': {
+            'host': 'localhost',
+            'port': 8001,
+            'protocol': 'http',
+        },
+        'tornado': {
+            'host': 'localhost',
+            'port': 8002,
+            'protocol': 'http'
+        }
     },
-    'tornado': {
-        'host': 'localhost',
-        'port': 8002,
-        'protocol': 'http'
+    'jobs': {
+        'ignore': [
+            'mine.update',
+            'saltutil.find_job'
+        ]
     }
 }
 

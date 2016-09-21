@@ -1,6 +1,7 @@
 from django import template
 from django.utils.safestring import mark_safe
 
+import json
 import hashlib
 from markdown import Markdown
 register = template.Library()
@@ -19,3 +20,8 @@ def markdownify(value):
 @register.filter
 def md5(value):
     return hashlib.md5(value.encode('utf-8')).hexdigest()
+
+
+@register.filter
+def jsonify(value):
+    return json.dumps(value, sort_keys=True)

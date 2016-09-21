@@ -8,7 +8,7 @@ from .views import (
     MinionList, MinionDetail, MinionEdit,
     NetworkList, NetworkDetail, NetworkEdit,
     DomainList, DomainDetail, DomainEdit,
-    EventView
+    EventView, JobView, JobDetailView
 )
 
 
@@ -39,4 +39,6 @@ urlpatterns = [
     auth_url(r'^domains/(?P<slug>[a-zA-Z0-9\.\-]+)/edit/$', DomainEdit.as_view(), name='domain-edit'),
 
     auth_url(r'^events/$', EventView.as_view(), name='events'),
+    auth_url(r'^jobs/$', JobView.as_view(), name='job-list'),
+    auth_url(r'^jobs/(?P<jid>[0-9]+)$', JobDetailView.as_view(), name='job-detail'),
 ]

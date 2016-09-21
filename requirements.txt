@@ -1,6 +1,10 @@
+dateutils==0.6.6
 Django==1.9.4
 django-crispy-forms==1.6.0
 django-grappelli==2.8.1
 Markdown==2.6.5
 netaddr==0.7.18
+python-dateutil==2.5.3
+pytz==2016.6.1
 requests==2.9.1
+six==1.10.0

@@ -30,7 +30,7 @@
 
                     <ul class="nav nav-sidebar">
                         <li {% block nav-events %}{% endblock %}><a href="{% url 'events' %}"><i class="fa fa-fw fa-2x fa-star-o"></i> Events</a></li>
-                        <!--<li><a href="#"><i class="fa fa-fw fa-2x fa-rocket"></i> Jobs</a></li>-->
+                        <li {% block nav-jobs %}{% endblock %}><a href="{% url 'job-list' %}"><i class="fa fa-fw fa-2x fa-rocket"></i> Jobs</a></li>
                     </ul>
                 {% endblock %}
             </div>

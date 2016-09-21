@@ -1,0 +1,98 @@
+{% extends '_layout/navbar.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% load utils %}
+
+{% block nav-jobs %}class="active"{% endblock %}
+{% block title-extra %}Job details{% endblock %}
+
+{% block meta-extra %}
+    <meta http-equiv="Content-Security-Policy" content="connect-src *">
+{% endblock %}
+
+{% block post-script %}
+    <script src="{% static 'js/highlight.pack.min.js' %}"></script>
+    <script>
+        var minion_results = {
+            {% for minion_id, result in job_details.Result.items %}
+                "{{ minion_id }}": {{ result|jsonify|safe }},
+            {% endfor %}
+        }
+    </script>
+    <script>
+        $('.minion-select:not(.danger)').click(function() {
+            $('.minion-select').removeClass('active');
+            $(this).addClass('active');
+            $('#minion-result').html('<pre><code>' + JSON.stringify(minion_results[$(this).data('minion-id')], null, 2) + '</code></pre>')
+            $('#minion-result pre code').each(function(i, block){
+                hljs.highlightBlock(block);
+            });
+            window.scrollTo(0, 0);
+        });
+    </script>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="page-header">
+                <h1>Job details</h1>
+            </div>
+
+            <table class="table datatable">
+                <tr>
+                    <td>Command</td>
+                    <td><samp>{{ job_details.Function }}</samp></td>
+                </tr>
+                <tr>
+                    <td>Target</td>
+                    <td>{{ job_details.Target }}</td>
+                </tr>
+                <tr>
+                    <td>Start time</td>
+                    <td>{{ job_details.StartTime }}</td>
+                </tr>
+                <tr>
+                    <td>User</td>
+                    <td>{{ job_details.User }}</td>
+                </tr>
+            </table>
+
+            <table class="table table-hover" id="minion-result-selection">
+                <thead>
+                    <tr>
+                        <th>Return</th>
+                        <th>Minion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for minion in job_details.Minions %}
+                        <tr class="minion-select {% if not minion in job_details.Result.keys %}danger{% endif %}" data-minion-id="{{ minion }}">
+                            <td>
+                                {% if minion in job_details.Result.keys %}
+                                    <i class="fa fa-fw fa-check text-success"></i>
+                                {% else %}
+                                    <i class="fa fa-fw fa-times text-danger"></i>
+                                {% endif %}
+                            </td>
+                            <td>{{ minion }} <span class="pull-right hidden text-muted"><i class="fa fa-chevron-right"></i></span></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-8">
+            <div class="page-header">
+                <h1>Minion results</h1>
+            </div>
+            <div id="minion-result">
+                <p>
+                    <i>Please select a minion to see the results</i>
+                </p>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -12,8 +12,12 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 
+import json
 from markdown import Markdown
+from collections import OrderedDict
+from dateutil.parser import parse as dateparse
 
+from salt_observer.saltapis import SaltTornado
 from salt_observer.forms import (
     LoginForm,
     MinionEditForm, NetworkEditForm, DomainEditForm
@@ -156,13 +160,59 @@ class DomainEdit(MarkdownEditMixin, UpdateView, DomainDetail):
     success_url_name = 'domain-detail'
 
 
-class EventView(TemplateView):
-    template_name = 'events.html'
+class AbstractTornadoView(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context.update({
-            'tornado_host': settings.SALT_API['tornado']['host'],
-            'tornado_port': settings.SALT_API['tornado']['port'],
+            'tornado_host': settings.SALT['api']['tornado']['host'],
+            'tornado_port': settings.SALT['api']['tornado']['port'],
+        })
+        return context
+
+
+class EventView(AbstractTornadoView):
+    template_name = 'events.html'
+
+
+class JobView(AbstractTornadoView):
+    template_name = 'jobs/index.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context.update({
+            'job_list': self.transform_jobs(self.get_jobs())
+        })
+        return context
+
+    def get_jobs(self):
+        return SaltTornado(
+            token=self.request.session['salt_tornado_token']
+        ).request(
+            resource='/jobs/'
+        ).json().get('return')[0]
+
+    def transform_jobs(self, jobs):
+        transformed_jobs = dict()
+
+        for key, value in jobs.items():
+            value['StartTime'] = dateparse(value['StartTime'])
+            if not value['Function'] in settings.SALT['jobs']['ignore']:
+                transformed_jobs.update({key: value})
+
+        return OrderedDict(sorted(transformed_jobs.items(), reverse=True))
+
+
+class JobDetailView(AbstractTornadoView):
+    template_name = 'jobs/detail.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context.update({
+            'job_details': SaltTornado(
+                token=self.request.session['salt_tornado_token']
+            ).request(
+                resource='/jobs/' + str(kwargs['jid']),
+            ).json().get('return')[0]
         })
         return context
