@@ -24,7 +24,7 @@ class AbstractApi(object):
 
     def request(self, method='get', resource='/', headers={}, data={}, set_token_header=True):
         if set_token_header:
-            headers = {**headers, 'X-Auth-Token': self.token}
+            headers.update({'X-Auth-Token': self.token})
 
         return getattr(requests, method)(
             self.BASE_URL + resource,
