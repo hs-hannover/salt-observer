@@ -1,2 +1,0 @@
-# exclude moved, copied, compiled or built static files
-static/ linguist-vendored
